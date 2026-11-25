@@ -490,6 +490,40 @@ export default function Hero({ onNavigate, lang = 'id' }) {
   const containerRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // ── Loading Screen State ──
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [loadDone, setLoadDone] = useState(false);
+  const [cardVisible, setCardVisible] = useState(false);
+
+  // Simulate loading progress 0→100 then reveal card
+  useEffect(() => {
+    let frame;
+    let start = null;
+    const duration = 2200; // ms total loading time
+
+    const animate = (ts) => {
+      if (!start) start = ts;
+      const elapsed = ts - start;
+      // Ease-in-out progress
+      const raw = Math.min(elapsed / duration, 1);
+      const eased = raw < 0.5 ? 2 * raw * raw : 1 - Math.pow(-2 * raw + 2, 2) / 2;
+      const pct = Math.floor(eased * 100);
+      setLoadProgress(pct);
+      if (raw < 1) {
+        frame = requestAnimationFrame(animate);
+      } else {
+        setLoadProgress(100);
+        // Brief pause at 100% then hide loader & show card
+        setTimeout(() => {
+          setLoadDone(true);
+          setTimeout(() => setCardVisible(true), 100);
+        }, 400);
+      }
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -518,38 +552,18 @@ export default function Hero({ onNavigate, lang = 'id' }) {
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
   const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-  // ── Welcome Card Scroll Animation ──
-  let cardOpacity = 0;
-  let cardScale = 0.9;
-  let cardTransY = 36;
-  let cardBlur = 6;
-
-  if (scrollProgress < 0.04) {
-    cardOpacity = 0;
-    cardScale = 0.9;
-    cardTransY = 36;
-    cardBlur = 6;
-  } else if (scrollProgress <= 0.36) {
-    const t = easeOutCubic((scrollProgress - 0.04) / 0.32);
-    cardOpacity = t;
-    cardScale = 0.9 + t * 0.1;
-    cardTransY = 36 * (1 - t);
-    cardBlur = 6 * (1 - t);
-  } else if (scrollProgress <= 0.68) {
-    cardOpacity = 1;
-    cardScale = 1.0;
-    cardTransY = 0;
-    cardBlur = 0;
-  } else {
-    const t = easeInOutCubic(Math.min(1, (scrollProgress - 0.68) / 0.28));
-    cardOpacity = Math.max(0, 1 - t);
-    cardScale = 1.0 + t * 0.08;
-    cardTransY = -t * 28;
-    cardBlur = t * 5;
-  }
-
+  // ── Welcome Card: always visible after loading, fades out only on scroll-out ──
   const darkOverlay = easeInOutCubic(Math.min(1, Math.max(0, (scrollProgress - 0.55) / 0.45)));
   const indicatorOpacity = Math.max(0, 1 - scrollProgress / 0.12);
+
+  // Card fades out as user scrolls away (but never scroll-in gated)
+  const cardScrollFade = scrollProgress > 0.68
+    ? Math.max(0, 1 - easeInOutCubic(Math.min(1, (scrollProgress - 0.68) / 0.28)))
+    : 1;
+  const cardFinalOpacity = cardVisible ? cardScrollFade : 0;
+  const cardTransY = scrollProgress > 0.68
+    ? -easeInOutCubic(Math.min(1, (scrollProgress - 0.68) / 0.28)) * 28
+    : 0;
 
   return (
     <>
@@ -558,7 +572,101 @@ export default function Hero({ onNavigate, lang = 'id' }) {
           0%, 100% { transform: translateY(0); opacity: 0.9; }
           50%      { transform: translateY(8px); opacity: 0.35; }
         }
+        @keyframes cardFadeIn {
+          from { opacity: 0; transform: translate3d(0, 28px, 0) scale(0.95); }
+          to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+        }
+        @keyframes loaderBarFill {
+          from { width: 0%; }
+        }
+        @keyframes loaderFadeOut {
+          from { opacity: 1; }
+          to   { opacity: 0; pointer-events: none; }
+        }
       `}</style>
+
+      {/* ── LOADING SCREEN ── */}
+      {!loadDone && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: '#02040a',
+            display: 'flex', flexDirection: 'column',
+            alignItems: 'center', justifyContent: 'center', gap: '28px',
+          }}
+        >
+          {/* Logo / name */}
+          <div style={{ textAlign: 'center' }}>
+            <div style={{
+              fontFamily: 'Anton, sans-serif',
+              fontSize: 'clamp(1.4rem, 4vw, 2.2rem)',
+              color: '#ffffff',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              marginBottom: '6px',
+            }}>
+              MUHAMAD FATIH RIZQI
+            </div>
+            <div style={{
+              fontSize: '0.75rem',
+              color: 'rgba(186,230,253,0.7)',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+            }}>
+              {lang === 'id' ? 'Memuat Portofolio...' : 'Loading Portfolio...'}
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div style={{ width: 'clamp(220px, 40vw, 360px)' }}>
+            <div style={{
+              height: '3px',
+              borderRadius: '999px',
+              background: 'rgba(255,255,255,0.08)',
+              overflow: 'hidden',
+            }}>
+              <div style={{
+                height: '100%',
+                width: `${loadProgress}%`,
+                borderRadius: '999px',
+                background: 'linear-gradient(90deg, #34d399, #06b6d4, #818cf8)',
+                transition: 'width 0.08s linear',
+              }} />
+            </div>
+            <div style={{
+              marginTop: '10px',
+              textAlign: 'right',
+              fontFamily: 'monospace',
+              fontSize: '0.78rem',
+              color: 'rgba(186,230,253,0.65)',
+              letterSpacing: '0.08em',
+            }}>
+              {loadProgress}%
+            </div>
+          </div>
+
+          {/* Animated dots */}
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {[0, 1, 2].map((i) => (
+              <div key={i} style={{
+                width: '6px', height: '6px', borderRadius: '50%',
+                background: 'rgba(186,230,253,0.5)',
+                animation: `scrollDot 1.2s ease-in-out ${i * 0.2}s infinite`,
+              }} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Fade-out overlay after loading ── */}
+      {loadDone && !cardVisible && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          background: '#02040a',
+          animation: 'loaderFadeOut 0.5s ease forwards',
+          pointerEvents: 'none',
+        }} />
+      )}
 
       <section
         id="home"
@@ -572,13 +680,13 @@ export default function Hero({ onNavigate, lang = 'id' }) {
             <RealSpaceCanvas scrollProgress={scrollProgress} />
           </div>
 
-          {/* Layer 1: Glassmorphism "WELCOME TO MY PORTFOLIO WEBSITE" Card (appears on scroll) */}
+          {/* Layer 1: Welcome Card — appears immediately after loading with fade-in */}
           <div
             style={{
-              opacity: cardOpacity,
-              transform: `translate3d(0, ${cardTransY}px, 0) scale(${cardScale})`,
-              filter: cardBlur > 0.2 ? `blur(${cardBlur}px)` : 'none',
-              willChange: 'opacity, transform, filter',
+              opacity: cardFinalOpacity,
+              transform: `translate3d(0, ${cardTransY}px, 0)`,
+              animation: cardVisible ? 'cardFadeIn 0.9s cubic-bezier(0.22,1,0.36,1) forwards' : 'none',
+              willChange: 'opacity, transform',
             }}
             className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center px-4"
           >
@@ -590,35 +698,38 @@ export default function Hero({ onNavigate, lang = 'id' }) {
                 border: '1.5px solid rgba(255, 255, 255, 0.32)',
                 boxShadow: '0 16px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35)',
               }}
-              className="flex flex-col items-center gap-4 text-center rounded-3xl px-8 py-7 sm:px-14 sm:py-9 max-w-2xl w-full"
+              className="flex flex-col items-center gap-3 text-center rounded-3xl px-6 py-5 sm:px-10 sm:py-7 max-w-lg w-full"
             >
               {/* Icons Row */}
-              <div className="flex items-center gap-4">
-                <div className="p-2.5 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
-                  <Code2 className="w-5 h-5 text-white" />
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
+                  <Code2 className="w-4 h-4 text-white" />
                 </div>
-                <div className="p-2.5 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
-                  <User className="w-5 h-5 text-white" />
+                <div className="p-2 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
+                  <User className="w-4 h-4 text-white" />
                 </div>
-                <div className="p-2.5 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
-                  <Globe className="w-5 h-5 text-white" />
+                <div className="p-2 rounded-full bg-slate-900/55 border border-white/25 shadow-inner">
+                  <Globe className="w-4 h-4 text-white" />
                 </div>
               </div>
 
-              {/* Main Typography */}
-              <div className="space-y-1">
+              {/* Main Typography — lebih kecil & rapi */}
+              <div className="space-y-0.5">
+                <p
+                  style={{ fontFamily: 'Anton, sans-serif' }}
+                  className="text-white/75 text-[10px] sm:text-xs tracking-[0.3em] uppercase"
+                >
+                  {lang === 'id' ? 'Selamat Datang di' : 'Welcome to My'}
+                </p>
                 <h1
                   style={{ fontFamily: 'Anton, sans-serif' }}
-                  className="text-white text-2xl sm:text-5xl md:text-6xl leading-[1.05] tracking-[0.1em] sm:tracking-[0.12em] uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.55)] select-none"
+                  className="text-white text-xl sm:text-3xl md:text-4xl leading-tight tracking-[0.08em] uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.55)] select-none"
                 >
-                  {lang === 'id' ? 'SELAMAT DATANG DI' : 'WELCOME TO MY'}
+                  {lang === 'id' ? 'Website Portofolio Saya' : 'Portfolio Website'}
                 </h1>
-                <h2
-                  style={{ fontFamily: 'Anton, sans-serif' }}
-                  className="text-white text-2xl sm:text-5xl md:text-6xl leading-[1.05] tracking-[0.1em] sm:tracking-[0.12em] uppercase drop-shadow-[0_4px_16px_rgba(0,0,0,0.55)] select-none"
-                >
-                  {lang === 'id' ? 'WEBSITE PORTOFOLIO SAYA' : 'PORTFOLIO WEBSITE'}
-                </h2>
+                <p className="text-white/55 text-[10px] sm:text-xs tracking-[0.2em] uppercase mt-1">
+                  Muhamad Fatih Rizqi · Full-Stack Developer
+                </p>
               </div>
             </div>
           </div>
@@ -629,8 +740,8 @@ export default function Hero({ onNavigate, lang = 'id' }) {
             className="absolute inset-0 z-30 pointer-events-none bg-gradient-to-b from-[#02040a]/40 via-[#02040a]/85 to-[#02040a]"
           />
 
-          {/* Layer 3: Scroll Indicator */}
-          {indicatorOpacity > 0 && (
+          {/* Layer 3: Scroll Indicator — only show after card is visible */}
+          {cardVisible && indicatorOpacity > 0 && (
             <div
               style={{ opacity: indicatorOpacity }}
               onClick={() => onNavigate && onNavigate('about')}
