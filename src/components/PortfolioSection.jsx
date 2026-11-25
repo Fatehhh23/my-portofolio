@@ -90,18 +90,18 @@ function AtmosphereCanvas({ progress }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Dynamic Sky/Atmosphere Gradient transitioning smoothly from Space (#02040a) -> Thermosphere (#0c2d5e) -> Sky (#bae6fd / #e0f2fe)
+      // 1. Dynamic Sky/Atmosphere Gradient transitioning smoothly from Space (#02040a) -> Deep Twilight (#0c1d38) -> Atmospheric Dusk (#1e3b62) -> Soft Sky
       const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
       if (p < 0.5) {
         const t = p / 0.5;
-        bgGrad.addColorStop(0, `rgba(2, 4, 10, ${1 - t * 0.35})`);
-        bgGrad.addColorStop(0.55, `rgba(${Math.round(6 + t * 14)}, ${Math.round(14 + t * 56)}, ${Math.round(40 + t * 105)}, 1)`);
-        bgGrad.addColorStop(1, `rgba(${Math.round(14 + t * 42)}, ${Math.round(52 + t * 115)}, ${Math.round(115 + t * 115)}, 1)`);
+        bgGrad.addColorStop(0, `rgba(2, 4, 10, ${1 - t * 0.25})`);
+        bgGrad.addColorStop(0.5, `rgba(${Math.round(4 + t * 14)}, ${Math.round(10 + t * 24)}, ${Math.round(26 + t * 38)}, 1)`);
+        bgGrad.addColorStop(1, `rgba(${Math.round(12 + t * 20)}, ${Math.round(30 + t * 32)}, ${Math.round(62 + t * 45)}, 1)`);
       } else {
         const t = (p - 0.5) / 0.5;
-        bgGrad.addColorStop(0, `rgba(${Math.round(12 + t * 188)}, ${Math.round(45 + t * 185)}, ${Math.round(98 + t * 152)}, 1)`);
-        bgGrad.addColorStop(0.55, `rgba(${Math.round(20 + t * 204)}, ${Math.round(70 + t * 172)}, ${Math.round(145 + t * 107)}, 1)`);
-        bgGrad.addColorStop(1, `rgba(${Math.round(56 + t * 184)}, ${Math.round(167 + t * 82)}, ${Math.round(230 + t * 25)}, 1)`);
+        bgGrad.addColorStop(0, `rgba(${Math.round(18 + t * 10)}, ${Math.round(34 + t * 19)}, ${Math.round(64 + t * 24)}, 1)`);
+        bgGrad.addColorStop(0.55, `rgba(${Math.round(32 + t * 40)}, ${Math.round(62 + t * 53)}, ${Math.round(107 + t * 52)}, 1)`);
+        bgGrad.addColorStop(1, `rgba(${Math.round(72 + t * 133)}, ${Math.round(115 + t * 111)}, ${Math.round(159 + t * 86)}, 1)`);
       }
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, width, height);
@@ -179,14 +179,14 @@ function AtmosphereCanvas({ progress }) {
   return <canvas ref={canvasRef} className="w-full h-full block" />;
 }
 
-// ── CSS GPU Cloud Background (replaces heavy Canvas - 100x lighter) ──
+// ── CSS GPU Cloud Background (Balanced atmospheric sky) ──
 function AnimatedCloudsCanvas() {
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
-      {/* Sky gradient backdrop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#e0f2fe] via-[#f0f9ff] to-[#f8fafc]" />
-      {/* Sunlight glow */}
-      <div className="absolute top-0 right-[18%] w-[55%] h-[45%] rounded-full bg-white/70 blur-[80px]" />
+      {/* Balanced atmospheric sky backdrop (Harmonis, tidak terlalu silau/kontras tajam) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#1c3558] via-[#48739f] via-50% to-[#cde2f5]" />
+      {/* Soft warm sunlight glow */}
+      <div className="absolute top-0 right-[15%] w-[60%] h-[40%] rounded-full bg-cyan-100/30 blur-[90px]" />
       {/* CSS animated clouds - GPU-accelerated transform only */}
       <style>{`
         @keyframes cloudDrift1 { from { transform: translate3d(-120px,0,0); } to { transform: translate3d(calc(100vw + 240px),0,0); } }
@@ -195,15 +195,14 @@ function AnimatedCloudsCanvas() {
         @keyframes cloudBob    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       `}</style>
       {[
-        { top:'6%',  dur:'38s', delay:'0s',   scale:1.1,  anim:'cloudDrift1', opacity:0.72 },
-        { top:'15%', dur:'52s', delay:'-14s', scale:0.85, anim:'cloudDrift2', opacity:0.55 },
-        { top:'25%', dur:'44s', delay:'-8s',  scale:1.3,  anim:'cloudDrift1', opacity:0.65 },
-        { top:'36%', dur:'60s', delay:'-22s', scale:0.9,  anim:'cloudDrift3', opacity:0.48 },
-        { top:'47%', dur:'41s', delay:'-5s',  scale:1.2,  anim:'cloudDrift2', opacity:0.60 },
-        { top:'57%', dur:'55s', delay:'-18s', scale:0.78, anim:'cloudDrift1', opacity:0.52 },
-        { top:'68%', dur:'47s', delay:'-30s', scale:1.0,  anim:'cloudDrift3', opacity:0.68 },
-        { top:'77%', dur:'63s', delay:'-10s', scale:1.15, anim:'cloudDrift2', opacity:0.58 },
-        { top:'86%', dur:'43s', delay:'-25s', scale:0.92, anim:'cloudDrift1', opacity:0.62 },
+        { top:'4%',  dur:'38s', delay:'0s',   scale:1.1,  anim:'cloudDrift1', opacity:0.65 },
+        { top:'12%', dur:'52s', delay:'-14s', scale:0.85, anim:'cloudDrift2', opacity:0.50 },
+        { top:'22%', dur:'44s', delay:'-8s',  scale:1.3,  anim:'cloudDrift1', opacity:0.58 },
+        { top:'34%', dur:'60s', delay:'-22s', scale:0.9,  anim:'cloudDrift3', opacity:0.45 },
+        { top:'46%', dur:'41s', delay:'-5s',  scale:1.2,  anim:'cloudDrift2', opacity:0.55 },
+        { top:'58%', dur:'55s', delay:'-18s', scale:0.78, anim:'cloudDrift1', opacity:0.48 },
+        { top:'70%', dur:'47s', delay:'-30s', scale:1.0,  anim:'cloudDrift3', opacity:0.62 },
+        { top:'82%', dur:'63s', delay:'-10s', scale:1.15, anim:'cloudDrift2', opacity:0.52 },
       ].map((c, i) => (
         <div
           key={i}
@@ -651,57 +650,21 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
-  // ── 3D Zoom-In & Shatter Pieces Physics (Smooth, faster reveal) ──
-  // Zoom plays first, shatter begins at 30% scroll progress
-  const zoomScale = 1 + doorProgress * 0.55;
-  const shatterP = Math.max(0, (doorProgress - 0.30) / 0.70);
-  // Cubic ease-out for smooth deceleration
-  const easedShatter = 1 - Math.pow(1 - shatterP, 3);
-
-  // White overlay starts fading in sooner so cloud section appears faster
-  const whiteOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.20) / 0.65));
-
-  // Individual 3D shatter trajectories for each letter of PORTOFOLIO
-  const shatterLetters = [
-    { char: 'P', tx: -46, ty: -34, rz: -55, rx: 40,  ry: -55, s: 1.7, grad: 'from-[#c6f6d5] to-[#bbf7d0]' },
-    { char: 'O', tx: -35, ty: 28,  rz: 38,  rx: -50, ry: -35, s: 2.0, grad: 'from-[#bbf7d0] to-[#a7f3d0]' },
-    { char: 'R', tx: -24, ty: -42, rz: -28, rx: 55,  ry: -25, s: 2.3, grad: 'from-[#a7f3d0] to-[#99f6e4]' },
-    { char: 'T', tx: -12, ty: 38,  rz: 45,  rx: -35, ry: 25,  s: 2.6, grad: 'from-[#99f6e4] to-[#bae6fd]' },
-    { char: 'O', tx: -3,  ty: -30, rz: -68, rx: 50,  ry: -45, s: 3.1, grad: 'from-[#bae6fd] to-[#b3e5fc]' },
-    { char: 'F', tx: 6,   ty: 36,  rz: 62,  rx: -55, ry: 40,  s: 3.1, grad: 'from-[#b3e5fc] to-[#aee4fd]' },
-    { char: 'O', tx: 17,  ty: -40, rz: -42, rx: 35,  ry: 50,  s: 2.5, grad: 'from-[#aee4fd] to-[#bae6fd]' },
-    { char: 'L', tx: 28,  ty: 30,  rz: 48,  rx: -45, ry: 30,  s: 2.2, grad: 'from-[#bae6fd] to-[#bfdbfe]' },
-    { char: 'I', tx: 38,  ty: -26, rz: -34, rx: 50,  ry: 55,  s: 1.9, grad: 'from-[#bfdbfe] to-[#c7d2fe]' },
-    { char: 'O', tx: 48,  ty: 24,  rz: 58,  rx: -40, ry: 45,  s: 1.7, grad: 'from-[#c7d2fe] to-[#bfdbfe]' },
-  ];
-
-  // Extra flying crystal/glass shard fragments bursting out on shatter
-  const shatterShards = [
-    { tx: -55, ty: -45, r: 140,  w: 28, h: 18, poly: '0% 20%, 100% 0%, 60% 100%', c: 'bg-[#c6f6d5]' },
-    { tx: -40, ty: 48,  r: -120, w: 22, h: 24, poly: '50% 0%, 100% 80%, 0% 100%', c: 'bg-[#a7f3d0]' },
-    { tx: -28, ty: -52, r: 210,  w: 18, h: 30, poly: '20% 0%, 100% 40%, 0% 100%', c: 'bg-[#99f6e4]' },
-    { tx: -18, ty: 44,  r: -190, w: 32, h: 16, poly: '0% 0%, 100% 50%, 30% 100%', c: 'bg-[#bae6fd]' },
-    { tx: -8,  ty: -48, r: 175,  w: 24, h: 24, poly: '50% 0%, 100% 50%, 50% 100%, 0% 50%', c: 'bg-[#bae6fd]' },
-    { tx: 4,   ty: 50,  r: -160, w: 26, h: 20, poly: '10% 0%, 100% 30%, 70% 100%, 0% 80%', c: 'bg-[#aee4fd]' },
-    { tx: 14,  ty: -50, r: 240,  w: 20, h: 26, poly: '50% 0%, 100% 100%, 0% 70%', c: 'bg-[#bfdbfe]' },
-    { tx: 25,  ty: 46,  r: -220, w: 30, h: 18, poly: '0% 30%, 90% 0%, 100% 100%', c: 'bg-[#bfdbfe]' },
-    { tx: 36,  ty: -42, r: 135,  w: 24, h: 22, poly: '30% 0%, 100% 20%, 60% 100%, 0% 70%', c: 'bg-[#c7d2fe]' },
-    { tx: 48,  ty: 40,  r: -145, w: 22, h: 28, poly: '0% 0%, 100% 60%, 20% 100%', c: 'bg-[#a7f3d0]' },
-    { tx: -52, ty: 10,  r: 195,  w: 20, h: 20, poly: '50% 0%, 100% 100%, 0% 100%', c: 'bg-[#bae6fd]' },
-    { tx: 54,  ty: -12, r: -175, w: 24, h: 16, poly: '0% 50%, 100% 0%, 80% 100%', c: 'bg-[#c6f6d5]' },
-    { tx: -14, ty: -20, r: 95,   w: 16, h: 16, poly: '50% 0%, 100% 50%, 50% 100%, 0% 50%', c: 'bg-white' },
-    { tx: 15,  ty: 18,  r: -105, w: 18, h: 18, poly: '50% 0%, 100% 100%, 0% 100%', c: 'bg-cyan-200' },
-  ];
+  // ── 3D Fly-Through Zoom (Tulisan Maju ke Layar) ──
+  const zoomScale = 1 + Math.pow(doorProgress, 1.7) * 8.2;
+  const textOpacity = Math.max(0, 1 - Math.pow(doorProgress, 1.3) * 1.3);
+  const textBlur = Math.max(0, (doorProgress - 0.22) * 12);
+  const skyOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.15) / 0.70));
 
   return (
     <div className="relative w-full">
       {/* ════════════════════════════════════════════════════════════════════════
-          STAGE 1: 3D ZOOM-IN & SHATTER PIECES TRANSITION (PECAH BERKEPING-KEPING)
+          STAGE 1: FLY-THROUGH ZOOM TRANSITION (TULISAN MAJU KE LAYAR)
          ════════════════════════════════════════════════════════════════════════ */}
       <div
         id="portfolio-portal"
         ref={doorContainerRef}
-        className="relative w-full h-[110vh] select-none z-20"
+        className="relative w-full h-[55vh] select-none z-20"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
@@ -712,70 +675,28 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
             <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#02040a] to-transparent" />
           </div>
 
-          {/* Silky Gradient Transition Layer: Melts Atmosphere into Cloud Sky */}
+          {/* Sky Overlay: atmospheric dark navy -> sky blue (not harsh white) */}
           <div
-            style={{ opacity: whiteOverlayOpacity }}
-            className="absolute inset-0 bg-gradient-to-b from-[#e0f2fe] via-[#f0f9ff] to-[#e0f2fe] pointer-events-none -z-10 transition-opacity duration-100"
+            style={{ opacity: skyOverlayOpacity }}
+            className="absolute inset-0 bg-gradient-to-b from-[#182e4e] via-[#48739f] via-60% to-[#cde2f5] pointer-events-none -z-10"
           />
 
-          {/* 3D Zoom-In & Shattering Text Container */}
+          {/* Fly-Through Zoom Text — tulisan "maju" melewati layar */}
           <div
             style={{
-              perspective: '1200px',
               transform: `scale(${zoomScale})`,
+              opacity: textOpacity,
+              filter: textBlur > 0 ? `blur(${textBlur}px)` : 'none',
+              willChange: 'transform, opacity, filter',
             }}
-            className="relative flex items-center justify-center z-30 pointer-events-none will-change-transform"
+            className="relative flex items-center justify-center z-30 pointer-events-none"
           >
-            {/* 10 Individual Shattering Letters */}
-            <div className="flex items-center justify-center">
-              {shatterLetters.map((item, idx) => {
-                const letterOpacity = Math.max(0, 1 - shatterP * 1.1);
-                const letterBlur = shatterP * 2.5;
-                return (
-                  <span
-                    key={idx}
-                    style={{
-                      fontFamily: 'Anton, sans-serif',
-                      transform: `translate3d(${item.tx * easedShatter}vw, ${item.ty * easedShatter}vh, 0) scale(${1 + (item.s - 1) * easedShatter}) rotateZ(${item.rz * easedShatter}deg) rotateX(${item.rx * easedShatter}deg) rotateY(${item.ry * easedShatter}deg)`,
-                      opacity: letterOpacity,
-                      filter: letterBlur > 0.2 ? `blur(${letterBlur}px)` : 'none',
-                    }}
-                    className={`inline-block font-anton text-7xl sm:text-9xl md:text-[12rem] lg:text-[15rem] xl:text-[17rem] leading-none uppercase bg-gradient-to-b ${item.grad} bg-clip-text text-transparent drop-shadow-[0_15px_35px_rgba(186,230,253,0.3)] will-change-transform`}
-                  >
-                    {item.char}
-                  </span>
-                );
-              })}
-            </div>
-
-            {/* Flying Shattered Crystal Shards */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              {shatterShards.map((shard, idx) => {
-                const shardOpacity = shatterP < 0.18 ? 0 : Math.sin(Math.min(1, shatterP) * Math.PI) * 0.90;
-                return (
-                  <div
-                    key={idx}
-                    style={{
-                      width: `${shard.w}px`,
-                      height: `${shard.h}px`,
-                      clipPath: `polygon(${shard.poly})`,
-                      transform: `translate3d(${shard.tx * easedShatter}vw, ${shard.ty * easedShatter}vh, 0) rotate(${shard.r * easedShatter}deg) scale(${0.4 + easedShatter * 2.2})`,
-                      opacity: shardOpacity,
-                    }}
-                    className={`absolute ${shard.c} shadow-[0_0_20px_rgba(186,230,253,0.6)] will-change-transform`}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Central Burst Flash as text shatters */}
-            <div
-              style={{
-                opacity: Math.sin(doorProgress * Math.PI) * 0.70,
-                transform: `scale(${1 + doorProgress * 5})`,
-              }}
-              className="absolute w-28 h-28 rounded-full bg-white/85 blur-3xl pointer-events-none"
-            />
+            <h1
+              style={{ fontFamily: 'Anton, sans-serif' }}
+              className="text-7xl sm:text-9xl md:text-[12rem] lg:text-[15rem] xl:text-[17rem] leading-none uppercase bg-gradient-to-b from-[#cde2f5] via-[#8bbfd9] to-[#48739f] bg-clip-text text-transparent drop-shadow-[0_0_60px_rgba(136,191,217,0.6)] select-none"
+            >
+              PORTOFOLIO
+            </h1>
           </div>
 
         </div>
@@ -790,10 +711,10 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       <section
         id="portfolio"
         ref={portfolioSectionRef}
-        className="relative min-h-screen w-full bg-[#e0f2fe] text-slate-900 flex flex-col justify-center items-center pt-20 sm:pt-24 pb-24 px-3 sm:px-6 lg:px-10 select-none z-20 overflow-hidden"
+        className="relative min-h-screen w-full text-slate-900 flex flex-col justify-center items-center pt-6 sm:pt-8 pb-24 px-3 sm:px-6 lg:px-10 select-none z-20 overflow-hidden"
       >
         {/* Top Smooth Gradient Feathering from Atmosphere Portal */}
-        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#e0f2fe] to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#182e4e] via-[#325882]/40 to-transparent pointer-events-none z-10" />
 
         {/* Animated Moving Clouds Canvas */}
         <AnimatedCloudsCanvas />
@@ -804,7 +725,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
             transitionDuration: '800ms',
             transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-          className={`relative z-20 flex justify-center mb-8 sm:mb-12 shrink-0 transform transition-all ${
+          className={`relative z-20 flex justify-center mb-6 sm:mb-8 shrink-0 transform transition-all ${
             portfolioVisible
               ? 'opacity-100 translate-y-0 scale-100'
               : 'opacity-0 translate-y-10 scale-95'
