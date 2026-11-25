@@ -744,7 +744,7 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
   return (
     <section
       id="about"
-      className="relative z-20 bg-transparent min-h-screen flex flex-col justify-center pt-10 sm:pt-12 pb-20 sm:pb-28 px-4 sm:px-8 lg:px-12 w-full overflow-hidden"
+      className="relative z-20 bg-transparent min-h-screen flex flex-col justify-center pt-8 sm:pt-10 pb-14 sm:pb-20 px-4 sm:px-8 lg:px-12 w-full overflow-hidden"
     >
       {/* ── Seamless cosmic fog transition from Home Mountain to Space ── */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black via-black/70 to-transparent pointer-events-none z-10" />

@@ -651,15 +651,15 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
-  // ── 3D Zoom-In & Shatter Pieces Physics (Slow & Smooth) ──
-  // Zoom plays first (gentle), shatter only begins at 40% scroll progress
-  const zoomScale = 1 + doorProgress * 0.65;
-  const shatterP = Math.max(0, (doorProgress - 0.40) / 0.60);
-  // Cubic ease-out: very slow start, decelerates smoothly
-  const easedShatter = 1 - Math.pow(1 - shatterP, 3.5);
+  // ── 3D Zoom-In & Shatter Pieces Physics (Smooth, faster reveal) ──
+  // Zoom plays first, shatter begins at 30% scroll progress
+  const zoomScale = 1 + doorProgress * 0.55;
+  const shatterP = Math.max(0, (doorProgress - 0.30) / 0.70);
+  // Cubic ease-out for smooth deceleration
+  const easedShatter = 1 - Math.pow(1 - shatterP, 3);
 
-  // White overlay starts fading in later so dark space background lingers during zoom
-  const whiteOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.30) / 0.75));
+  // White overlay starts fading in sooner so cloud section appears faster
+  const whiteOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.20) / 0.65));
 
   // Individual 3D shatter trajectories for each letter of PORTOFOLIO
   const shatterLetters = [
@@ -701,7 +701,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       <div
         id="portfolio-portal"
         ref={doorContainerRef}
-        className="relative w-full h-[160vh] select-none z-20"
+        className="relative w-full h-[110vh] select-none z-20"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 

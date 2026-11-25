@@ -84,35 +84,8 @@ export default function App() {
         activeSection={activeSection}
         onNavigate={handleNavigate}
         lang={lang}
+        onLangChange={setLang}
       />
-
-      {/* Simple Language Switcher (ID | EN) at Top-Right Corner */}
-      <div className="fixed top-3 sm:top-5 right-3 sm:right-6 z-50">
-        <div className="inline-flex items-center p-1 rounded-full bg-slate-900/55 backdrop-blur-2xl border border-white/25 shadow-[0_12px_32px_rgba(15,23,42,0.28),inset_0_1px_1px_rgba(255,255,255,0.25)]">
-          <button
-            type="button"
-            onClick={() => setLang('id')}
-            className={`px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold tracking-wider transition-all cursor-pointer select-none ${
-              lang === 'id'
-                ? 'bg-white/25 text-white border border-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
-                : 'text-white/80 hover:text-white'
-            }`}
-          >
-            ID
-          </button>
-          <button
-            type="button"
-            onClick={() => setLang('en')}
-            className={`px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold tracking-wider transition-all cursor-pointer select-none ${
-              lang === 'en'
-                ? 'bg-white/25 text-white border border-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
-                : 'text-white/80 hover:text-white'
-            }`}
-          >
-            EN
-          </button>
-        </div>
-      </div>
 
       {/* Hero Section (Home) */}
       <Hero onNavigate={handleNavigate} lang={lang} />

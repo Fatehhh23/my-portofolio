@@ -671,7 +671,7 @@ export default function Hero({ onNavigate, lang = 'id' }) {
       <section
         id="home"
         ref={containerRef}
-        className="relative z-20 w-full h-[130vh] bg-[#02040a] select-none"
+        className="relative z-20 w-full h-[105vh] bg-[#02040a] select-none"
       >
         <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#02040a]">
 
