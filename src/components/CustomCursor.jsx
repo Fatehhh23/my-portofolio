@@ -1,80 +1,89 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
+// Optimized: uses direct DOM style mutation instead of React state,
+// so the component never re-renders — zero React overhead per frame.
 export default function CustomCursor() {
-  const [auraPos, setAuraPos] = useState({ x: -300, y: -300 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
-
-  const targetPos = useRef({ x: -300, y: -300 });
-  const animFrame = useRef(null);
+  const auraRef = useRef(null);
 
   useEffect(() => {
-    // Disable on touch devices
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setIsTouch(true);
-      return;
-    }
+    // Completely disable on touch / mobile devices
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    const el = auraRef.current;
+    if (!el) return;
+
+    const targetPos = { x: -300, y: -300 };
+    let currentX = -300;
+    let currentY = -300;
+    let visible = false;
+    let animId;
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const render = () => {
+      currentX = lerp(currentX, targetPos.x, 0.18);
+      currentY = lerp(currentY, targetPos.y, 0.18);
+      // Direct DOM mutation — no React re-render
+      el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+      animId = requestAnimationFrame(render);
+    };
 
     const handleMouseMove = (e) => {
-      targetPos.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
-
-      const target = e.target;
-      if (target) {
-        const clickable = target.closest(
-          'a, button, input, textarea, [role="button"], .cursor-pointer, .cursor-grab, .cursor-grabbing'
-        );
-        setIsHovered(!!clickable);
+      targetPos.x = e.clientX;
+      targetPos.y = e.clientY;
+      if (!visible) {
+        visible = true;
+        el.style.opacity = '1';
+        // Check hover state
+      }
+      const clickable = e.target.closest(
+        'a, button, input, textarea, [role="button"], .cursor-pointer, .cursor-grab, .cursor-grabbing'
+      );
+      if (clickable) {
+        el.style.width = '340px';
+        el.style.height = '340px';
+        el.style.background = 'radial-gradient(circle, rgba(52,211,153,0.35) 0%, rgba(6,182,212,0.22) 30%, rgba(99,102,241,0.10) 55%, transparent 75%)';
+      } else {
+        el.style.width = '260px';
+        el.style.height = '260px';
+        el.style.background = 'radial-gradient(circle, rgba(52,211,153,0.25) 0%, rgba(6,182,212,0.15) 30%, rgba(99,102,241,0.05) 55%, transparent 75%)';
       }
     };
 
-    const handleMouseLeave = () => setIsVisible(false);
-    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => { visible = false; el.style.opacity = '0'; };
+    const handleMouseEnter = () => { visible = true; el.style.opacity = '1'; };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
-
-    // Smooth lerp loop untuk pergerakan cahaya halus mengikuti kursor
-    const lerp = (start, end, factor) => start + (end - start) * factor;
-    let currentX = -300;
-    let currentY = -300;
-
-    const render = () => {
-      currentX = lerp(currentX, targetPos.current.x, 0.18);
-      currentY = lerp(currentY, targetPos.current.y, 0.18);
-      setAuraPos({ x: currentX, y: currentY });
-      animFrame.current = requestAnimationFrame(render);
-    };
-
-    animFrame.current = requestAnimationFrame(render);
+    animId = requestAnimationFrame(render);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
-      if (animFrame.current) cancelAnimationFrame(animFrame.current);
+      cancelAnimationFrame(animId);
     };
-  }, [isVisible]);
-
-  if (isTouch || !isVisible) return null;
+  }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden select-none">
-      {/* Cahaya Gradasi yang Bergerak Mengikuti Kursor Biasa */}
-      <div
-        style={{
-          transform: `translate3d(${auraPos.x}px, ${auraPos.y}px, 0) translate(-50%, -50%)`,
-          background: isHovered
-            ? 'radial-gradient(circle, rgba(52, 211, 153, 0.35) 0%, rgba(6, 182, 212, 0.22) 30%, rgba(99, 102, 241, 0.10) 55%, transparent 75%)'
-            : 'radial-gradient(circle, rgba(52, 211, 153, 0.25) 0%, rgba(6, 182, 212, 0.15) 30%, rgba(99, 102, 241, 0.05) 55%, transparent 75%)',
-          width: isHovered ? '340px' : '260px',
-          height: isHovered ? '340px' : '260px',
-          transition: 'width 0.3s ease, height 0.3s ease',
-        }}
-        className="fixed top-0 left-0 rounded-full blur-2xl pointer-events-none"
-      />
-    </div>
+    <div
+      ref={auraRef}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '260px',
+        height: '260px',
+        borderRadius: '50%',
+        filter: 'blur(24px)',
+        pointerEvents: 'none',
+        zIndex: 40,
+        opacity: 0,
+        transition: 'width 0.3s ease, height 0.3s ease, opacity 0.3s ease',
+        willChange: 'transform',
+        background: 'radial-gradient(circle, rgba(52,211,153,0.25) 0%, rgba(6,182,212,0.15) 30%, rgba(99,102,241,0.05) 55%, transparent 75%)',
+      }}
+    />
   );
 }

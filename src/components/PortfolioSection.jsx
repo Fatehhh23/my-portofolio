@@ -45,13 +45,13 @@ function AtmosphereCanvas({ progress }) {
     const ctx = canvas.getContext('2d');
 
     let animId;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     let width = window.innerWidth;
     let height = window.innerHeight;
 
     const setupSize = () => {
       if (!canvas) return;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.floor(width * dpr);
@@ -179,116 +179,59 @@ function AtmosphereCanvas({ progress }) {
   return <canvas ref={canvasRef} className="w-full h-full block" />;
 }
 
-// ── Animated Moving Clouds Canvas (Stage 2: Halaman Baru Portofolio Bertema Awan) ──
+// ── CSS GPU Cloud Background (replaces heavy Canvas - 100x lighter) ──
 function AnimatedCloudsCanvas() {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    const ctx = canvas.getContext('2d');
-
-    let animationFrameId;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let width = container.offsetWidth;
-    let height = container.offsetHeight;
-
-    const handleResize = () => {
-      if (!canvas || !container) return;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = container.offsetWidth;
-      height = container.offsetHeight;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    // Multi-layered soft volumetric clouds
-    const clouds = Array.from({ length: 18 }, (_, i) => {
-      const layer = i % 3; // 0 = far/slow, 1 = mid, 2 = near/faster
-      const baseScale = layer === 0 ? 0.85 : layer === 1 ? 1.15 : 1.45;
-      const puffs = Array.from({ length: 5 + (i % 3) }, (__, j) => ({
-        ox: (j - 2.2) * (42 * baseScale) + (Math.random() - 0.5) * 20,
-        oy: (Math.sin(j * 1.4) * 16 - (j === 2 ? 18 : 0)) * baseScale,
-        r: (48 + Math.random() * 34) * baseScale,
-      }));
-      return {
-        x: Math.random() * (width + 400) - 200,
-        y: (0.08 + ((i * 0.13) % 0.82)) * height,
-        vx: (0.18 + layer * 0.16 + Math.random() * 0.12),
-        bobPhase: Math.random() * Math.PI * 2,
-        opacity: layer === 0 ? 0.45 : layer === 1 ? 0.65 : 0.82,
-        puffs,
-      };
-    });
-
-    let time = 0;
-
-    const render = () => {
-      time += 0.016;
-      ctx.clearRect(0, 0, width, height);
-
-      // Soft bright sky backdrop
-      const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
-      skyGrad.addColorStop(0, '#e0f2fe');
-      skyGrad.addColorStop(0.45, '#f0f9ff');
-      skyGrad.addColorStop(1, '#f8fafc');
-      ctx.fillStyle = skyGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Subtle warm sunlight glow in upper sky
-      const sunGlow = ctx.createRadialGradient(width * 0.82, height * 0.12, 10, width * 0.82, height * 0.12, Math.max(width, height) * 0.45);
-      sunGlow.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-      sunGlow.addColorStop(0.4, 'rgba(224, 242, 254, 0.45)');
-      sunGlow.addColorStop(1, 'rgba(240, 249, 255, 0)');
-      ctx.fillStyle = sunGlow;
-      ctx.fillRect(0, 0, width, height);
-
-      // Draw drifting volumetric clouds
-      for (const cloud of clouds) {
-        cloud.x += cloud.vx;
-        if (cloud.x - 280 > width) {
-          cloud.x = -280;
-        }
-        const bobY = Math.sin(time * 0.6 + cloud.bobPhase) * 4;
-
-        for (const puff of cloud.puffs) {
-          const px = cloud.x + puff.ox;
-          const py = cloud.y + puff.oy + bobY;
-
-          const grad = ctx.createRadialGradient(px, py - puff.r * 0.2, puff.r * 0.1, px, py, puff.r);
-          grad.addColorStop(0, `rgba(255, 255, 255, ${cloud.opacity})`);
-          grad.addColorStop(0.55, `rgba(248, 250, 252, ${cloud.opacity * 0.78})`);
-          grad.addColorStop(0.85, `rgba(203, 213, 225, ${cloud.opacity * 0.25})`);
-          grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(px, py, puff.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
-    <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
-      <canvas ref={canvasRef} className="w-full h-full block" />
+    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
+      {/* Sky gradient backdrop */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#e0f2fe] via-[#f0f9ff] to-[#f8fafc]" />
+      {/* Sunlight glow */}
+      <div className="absolute top-0 right-[18%] w-[55%] h-[45%] rounded-full bg-white/70 blur-[80px]" />
+      {/* CSS animated clouds - GPU-accelerated transform only */}
+      <style>{`
+        @keyframes cloudDrift1 { from { transform: translate3d(-120px,0,0); } to { transform: translate3d(calc(100vw + 240px),0,0); } }
+        @keyframes cloudDrift2 { from { transform: translate3d(-200px,0,0); } to { transform: translate3d(calc(100vw + 300px),0,0); } }
+        @keyframes cloudDrift3 { from { transform: translate3d(-160px,0,0); } to { transform: translate3d(calc(100vw + 260px),0,0); } }
+        @keyframes cloudBob    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+      `}</style>
+      {[
+        { top:'6%',  dur:'38s', delay:'0s',   scale:1.1,  anim:'cloudDrift1', opacity:0.72 },
+        { top:'15%', dur:'52s', delay:'-14s', scale:0.85, anim:'cloudDrift2', opacity:0.55 },
+        { top:'25%', dur:'44s', delay:'-8s',  scale:1.3,  anim:'cloudDrift1', opacity:0.65 },
+        { top:'36%', dur:'60s', delay:'-22s', scale:0.9,  anim:'cloudDrift3', opacity:0.48 },
+        { top:'47%', dur:'41s', delay:'-5s',  scale:1.2,  anim:'cloudDrift2', opacity:0.60 },
+        { top:'57%', dur:'55s', delay:'-18s', scale:0.78, anim:'cloudDrift1', opacity:0.52 },
+        { top:'68%', dur:'47s', delay:'-30s', scale:1.0,  anim:'cloudDrift3', opacity:0.68 },
+        { top:'77%', dur:'63s', delay:'-10s', scale:1.15, anim:'cloudDrift2', opacity:0.58 },
+        { top:'86%', dur:'43s', delay:'-25s', scale:0.92, anim:'cloudDrift1', opacity:0.62 },
+      ].map((c, i) => (
+        <div
+          key={i}
+          style={{
+            position: 'absolute',
+            top: c.top,
+            left: 0,
+            animation: `${c.anim} ${c.dur} linear ${c.delay} infinite`,
+            willChange: 'transform',
+          }}
+        >
+          <div style={{ animation: `cloudBob ${4 + i * 0.4}s ease-in-out ${c.delay} infinite`, willChange: 'transform' }}>
+            <svg
+              viewBox="0 0 320 90"
+              width={260 * c.scale}
+              height={80 * c.scale}
+              style={{ opacity: c.opacity, display: 'block' }}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse cx="160" cy="65" rx="140" ry="22" fill="rgba(255,255,255,0.9)" />
+              <ellipse cx="100" cy="52" rx="70"  ry="32" fill="rgba(255,255,255,0.88)" />
+              <ellipse cx="170" cy="44" rx="80"  ry="38" fill="rgba(255,255,255,0.92)" />
+              <ellipse cx="230" cy="54" rx="65"  ry="28" fill="rgba(255,255,255,0.86)" />
+              <ellipse cx="140" cy="38" rx="55"  ry="28" fill="rgba(248,250,252,0.80)" />
+            </svg>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -758,7 +701,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       <div
         id="portfolio-portal"
         ref={doorContainerRef}
-        className="relative w-full h-[260vh] select-none z-20"
+        className="relative w-full h-[160vh] select-none z-20"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 

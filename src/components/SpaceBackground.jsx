@@ -2,6 +2,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 
 export default function SpaceBackground() {
   const canvasRef = useRef(null);
+  const isVisibleRef = useRef(true);
 
   // 1. Persebaran 480 Bintang (intensitas & palet warna disamakan dengan halaman Home)
   const stars = useMemo(() => {
@@ -42,14 +43,22 @@ export default function SpaceBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Pause when scrolled out of view
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     let animId;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // cap DPR at 1.5 to save GPU memory on mobile
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     let width = canvas.parentElement ? canvas.parentElement.offsetWidth : window.innerWidth;
     let height = canvas.parentElement ? canvas.parentElement.offsetHeight : window.innerHeight * 3;
 
     const handleResize = () => {
       if (!canvas.parentElement) return;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = canvas.parentElement.offsetWidth;
       height = canvas.parentElement.offsetHeight;
       canvas.width = Math.floor(width * dpr);
@@ -126,14 +135,20 @@ export default function SpaceBackground() {
         }
       }
 
-      animId = requestAnimationFrame(render);
+      if (isVisibleRef.current) {
+        animId = requestAnimationFrame(render);
+      } else {
+        animId = setTimeout(() => { animId = requestAnimationFrame(render); }, 150);
+      }
     };
 
     render();
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (animId) cancelAnimationFrame(animId);
+      observer.disconnect();
+      cancelAnimationFrame(animId);
+      clearTimeout(animId);
     };
   }, []);
 

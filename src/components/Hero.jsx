@@ -5,6 +5,8 @@ import { Code2, User, Globe } from 'lucide-react';
 function RealSpaceCanvas({ scrollProgress }) {
   const canvasRef = useRef(null);
   const scrollRef = useRef(scrollProgress);
+  const isVisibleRef = useRef(true);
+  const animIdRef = useRef(null);
 
   useEffect(() => {
     scrollRef.current = scrollProgress;
@@ -15,16 +17,24 @@ function RealSpaceCanvas({ scrollProgress }) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
+    // Pause when not visible
+    const observer = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
+
     let animId;
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // cap DPR at 1.5 on mobile to save GPU memory significantly
+    let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     const setupSize = () => {
       if (!canvas) return;
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -456,14 +466,20 @@ function RealSpaceCanvas({ scrollProgress }) {
 
       inFrontOfSun.forEach(drawPlanet);
 
-      animId = requestAnimationFrame(render);
+      if (isVisibleRef.current) {
+        animId = requestAnimationFrame(render);
+      } else {
+        animId = setTimeout(() => { animId = requestAnimationFrame(render); }, 100);
+      }
     };
 
     render();
 
     return () => {
       window.removeEventListener('resize', setupSize);
+      observer.disconnect();
       cancelAnimationFrame(animId);
+      clearTimeout(animId);
     };
   }, []);
 
@@ -547,7 +563,7 @@ export default function Hero({ onNavigate, lang = 'id' }) {
       <section
         id="home"
         ref={containerRef}
-        className="relative z-20 w-full h-[185vh] bg-[#02040a] select-none"
+        className="relative z-20 w-full h-[130vh] bg-[#02040a] select-none"
       >
         <div className="sticky top-0 w-full h-screen overflow-hidden bg-[#02040a]">
 
