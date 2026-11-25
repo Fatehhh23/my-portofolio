@@ -90,17 +90,17 @@ function AtmosphereCanvas({ progress }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Dynamic Sky/Atmosphere Gradient transitioning smoothly from Space (#02040a) -> Deep Twilight (#0c1d38) -> Atmospheric Dusk (#2a4d73) -> Horizon (#3a6896)
+      // 1. Dynamic Sky/Atmosphere Gradient: starts 100% transparent at top so About space blends with zero seam
       const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
-      if (p < 0.5) {
-        const t = p / 0.5;
-        bgGrad.addColorStop(0, `rgba(2, 4, 10, ${t * 0.7})`);
-        bgGrad.addColorStop(0.25, `rgba(${Math.round(2 + t * 8)}, ${Math.round(6 + t * 14)}, ${Math.round(16 + t * 24)}, 0.92)`);
-        bgGrad.addColorStop(0.6, `rgba(${Math.round(6 + t * 18)}, ${Math.round(16 + t * 28)}, ${Math.round(38 + t * 44)}, 1)`);
+      if (p < 0.45) {
+        const t = p / 0.45;
+        bgGrad.addColorStop(0, 'rgba(2, 4, 10, 0)');
+        bgGrad.addColorStop(0.22, `rgba(4, 10, 26, ${0.15 + t * 0.65})`);
+        bgGrad.addColorStop(0.55, `rgba(${Math.round(6 + t * 18)}, ${Math.round(16 + t * 28)}, ${Math.round(38 + t * 44)}, ${0.55 + t * 0.45})`);
         bgGrad.addColorStop(1, `rgba(${Math.round(14 + t * 28)}, ${Math.round(34 + t * 42)}, ${Math.round(70 + t * 55)}, 1)`);
       } else {
-        const t = (p - 0.5) / 0.5;
-        bgGrad.addColorStop(0, `rgba(${Math.round(10 + t * 20)}, ${Math.round(20 + t * 38)}, ${Math.round(40 + t * 55)}, ${0.7 + t * 0.3})`);
+        const t = (p - 0.45) / 0.55;
+        bgGrad.addColorStop(0, `rgba(${Math.round(10 + t * 20)}, ${Math.round(20 + t * 38)}, ${Math.round(40 + t * 55)}, ${0.55 + t * 0.45})`);
         bgGrad.addColorStop(0.55, `rgba(${Math.round(24 + t * 18)}, ${Math.round(44 + t * 33)}, ${Math.round(82 + t * 33)}, 1)`);
         bgGrad.addColorStop(1, `rgba(${Math.round(42 + t * 16)}, ${Math.round(76 + t * 28)}, ${Math.round(125 + t * 25)}, 1)`);
       }
@@ -672,8 +672,6 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
           {/* Animated Atmosphere Background Canvas (Space -> Earth Atmosphere) */}
           <div className="absolute inset-0 pointer-events-none -z-20">
             <AtmosphereCanvas progress={doorProgress} />
-            {/* Top feathering so About space blends seamlessly into Atmosphere */}
-            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#02040a]/90 via-[#02040a]/40 to-transparent" />
           </div>
 
           {/* Sky Overlay: menyatu mulus ke tepi atas halaman Portofolio (#3a6896) */}
@@ -694,7 +692,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
           >
             <h1
               style={{ fontFamily: 'Anton, sans-serif' }}
-              className="text-6xl sm:text-8xl md:text-[10rem] lg:text-[13rem] xl:text-[15rem] leading-none uppercase bg-gradient-to-b from-white via-[#cde2f5] to-[#7dd3fc] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(125,211,252,0.45)] select-none text-center whitespace-nowrap"
+              className="text-[clamp(2.8rem,14vw,14rem)] leading-none uppercase bg-gradient-to-b from-white via-[#cde2f5] to-[#7dd3fc] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(125,211,252,0.45)] select-none text-center whitespace-nowrap"
             >
               PORTOFOLIO
             </h1>
@@ -774,7 +772,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
             transitionDuration: '900ms',
             transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-          className={`relative z-20 w-full max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-5 my-auto transform transition-all ${
+          className={`relative z-20 w-full max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-5 my-auto transform transition-all ${
             portfolioVisible
               ? 'opacity-100 translate-y-0 scale-100'
               : 'opacity-0 translate-y-12 scale-[0.98]'
@@ -785,15 +783,15 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
           <button
             onClick={handlePrev}
             aria-label="Previous Cards"
-            className="shrink-0 w-9 sm:w-12 h-9 sm:h-12 rounded-full bg-white/70 hover:bg-slate-900 text-slate-900 hover:text-white border border-slate-300/80 hover:border-slate-900 backdrop-blur-xl flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-90 hover:scale-105 shadow-[0_8px_20px_rgba(15,23,42,0.1)] z-20"
+            className="shrink-0 w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-white/70 hover:bg-slate-900 text-slate-900 hover:text-white border border-slate-300/80 hover:border-slate-900 backdrop-blur-xl flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-90 hover:scale-105 shadow-[0_8px_20px_rgba(15,23,42,0.1)] z-20"
           >
-            <ChevronLeft className="w-5 sm:w-6 h-5 sm:h-6" />
+            <ChevronLeft className="w-4 sm:w-6 h-4 sm:h-6" />
           </button>
 
           {/* Cards Window */}
           <div className="w-full overflow-hidden py-3">
             <div
-              className="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] gap-4 sm:gap-6"
+              className="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] gap-3 sm:gap-6"
               style={{
                 transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
               }}
@@ -804,17 +802,17 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
                   className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] shrink-0 flex flex-col"
                 >
                   {/* Slate-Blue-Gray Card Matching Screenshot */}
-                  <div className="group relative rounded-2xl bg-[#c5d0da]/90 hover:bg-[#bcc8d4] backdrop-blur-md border border-white/60 shadow-[0_12px_30px_rgba(15,23,42,0.1)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden flex flex-col h-[400px] sm:h-[430px] transition-all duration-300 hover:-translate-y-1.5">
+                  <div className="group relative rounded-2xl bg-[#c5d0da]/90 hover:bg-[#bcc8d4] backdrop-blur-md border border-white/60 shadow-[0_12px_30px_rgba(15,23,42,0.1)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden flex flex-col h-[350px] sm:h-[430px] transition-all duration-300 hover:-translate-y-1.5">
 
                     {/* Top Image Frame inside Card (full-fit object-contain so Projects, Sertificate & Galery show clearly) */}
-                    <div className="p-3.5 sm:p-4 pb-0 shrink-0">
+                    <div className="p-3 sm:p-4 pb-0 shrink-0">
                       <div
                         className={`relative w-full rounded-xl overflow-hidden shadow-inner flex items-center justify-center ${
                           currentTab === 'galery'
                             ? 'aspect-video bg-slate-950'
                             : currentTab === 'sertificate'
-                            ? 'h-52 sm:h-56 bg-white p-1.5'
-                            : 'h-52 sm:h-56 bg-slate-950/90 p-1'
+                            ? 'h-44 sm:h-56 bg-white p-1.5'
+                            : 'h-44 sm:h-56 bg-slate-950/90 p-1'
                         }`}
                       >
                         <img
@@ -854,9 +852,9 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
           <button
             onClick={handleNext}
             aria-label="Next Cards"
-            className="shrink-0 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-white/70 hover:bg-slate-900 text-slate-900 hover:text-white border border-slate-300/80 hover:border-slate-900 backdrop-blur-xl flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-90 hover:scale-105 shadow-[0_8px_20px_rgba(15,23,42,0.1)] z-20"
+            className="shrink-0 w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-white/70 hover:bg-slate-900 text-slate-900 hover:text-white border border-slate-300/80 hover:border-slate-900 backdrop-blur-xl flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-90 hover:scale-105 shadow-[0_8px_20px_rgba(15,23,42,0.1)] z-20"
           >
-            <ChevronRight className="w-5 sm:w-6 h-5 sm:h-6" />
+            <ChevronRight className="w-4 sm:w-6 h-4 sm:h-6" />
           </button>
 
         </div>

@@ -272,17 +272,17 @@ function InteractiveFolderCard({
   return (
     <div
       onClick={() => setIsOpen((prev) => !prev)}
-      className={`group relative cursor-pointer select-none transition-all duration-300 hover:scale-[1.02] active:scale-95 w-full pt-8 sm:pt-10 ${isOpen ? 'is-folder-open' : ''}`}
+      className={`group relative cursor-pointer select-none transition-all duration-300 hover:scale-[1.02] active:scale-95 w-full pt-12 sm:pt-14 ${isOpen ? 'is-folder-open' : ''}`}
     >
-      {/* ── EMERGING DOCUMENTS / PAPERS (Tucked behind Front Glass) ── */}
+      {/* ── EMERGING DOCUMENTS / PAPERS (Auto-floating & emerging continuously without touch) ── */}
       <div className="absolute inset-x-0 top-0 h-32 flex justify-center pointer-events-none z-10">
         
-        {/* === 1. PROJECTS FOLDER PAPERS (ALL 3 VISIBLE & NEATLY BOUNDED) === */}
+        {/* === 1. PROJECTS FOLDER PAPERS === */}
         {type === 'projects' && (
           <div className="relative w-full h-full flex justify-center">
             {/* Paper 1: Left - Drone Bee Tricopter AI */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-10 opacity-0 group-hover:-translate-y-5 sm:group-hover:-translate-y-7 group-hover:opacity-100 z-10">
-              <div className="w-24 sm:w-28 h-28 sm:h-34 rounded-xl bg-zinc-950 border border-emerald-400/50 shadow-xl overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:-translate-x-7 sm:group-hover:-translate-x-9 group-hover:-rotate-8 group-hover:scale-95">
+            <div className="absolute top-2 left-1/2 folder-paper-left z-10">
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-emerald-400/50 shadow-xl overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-zinc-900">
                   <img
                     src={projectDrone}
@@ -290,11 +290,11 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2.5">
-                  <p className="text-[7.5px] font-bold text-emerald-300 leading-tight truncate">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-300 leading-tight truncate">
                     Drone AI Tricopter
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     Few-Shot Learning
                   </p>
                 </div>
@@ -302,8 +302,8 @@ function InteractiveFolderCard({
             </div>
 
             {/* Paper 2: Right - Sistem Monitoring Jantung IoT */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-75 transform translate-y-10 opacity-0 group-hover:-translate-y-5 sm:group-hover:-translate-y-7 group-hover:opacity-100 z-10">
-              <div className="w-24 sm:w-28 h-28 sm:h-34 rounded-xl bg-zinc-950 border border-cyan-400/50 shadow-xl overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:translate-x-7 sm:group-hover:translate-x-9 group-hover:rotate-8 group-hover:scale-95">
+            <div className="absolute top-2 left-1/2 folder-paper-right z-10">
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-cyan-400/50 shadow-xl overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-zinc-900">
                   <img
                     src={projectIot}
@@ -311,11 +311,11 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2.5">
-                  <p className="text-[7.5px] font-bold text-cyan-300 leading-tight truncate">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-cyan-300 leading-tight truncate">
                     Monitoring Jantung IoT
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     C++ & Web Server
                   </p>
                 </div>
@@ -323,8 +323,8 @@ function InteractiveFolderCard({
             </div>
 
             {/* Paper 3: Center (Hero) - TIRTA Web Platform */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-12 opacity-0 group-hover:-translate-y-8 sm:group-hover:-translate-y-11 group-hover:opacity-100 z-20">
-              <div className="w-28 sm:w-34 h-32 sm:h-38 rounded-xl bg-zinc-950 border-2 border-emerald-400/70 shadow-[0_16px_36px_rgba(16,185,129,0.45)] overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:scale-105">
+            <div className="absolute top-2 left-1/2 folder-paper-center z-20">
+              <div className="w-20 sm:w-28 h-24 sm:h-32 rounded-xl bg-zinc-950 border-2 border-emerald-400/70 shadow-[0_14px_30px_rgba(16,185,129,0.45)] overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img
                     src={projectTirta}
@@ -332,12 +332,11 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1.5 pt-3">
-                  <p className="text-[8px] font-bold text-white leading-tight flex items-center justify-between">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 sm:p-1.5 pt-2.5">
+                  <p className="text-[7px] sm:text-[8px] font-bold text-white leading-tight truncate">
                     <span className="text-emerald-300">TIRTA Web Platform</span>
-                    <span className="text-[7px] text-white/80">Simulasi →</span>
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     Tsunami Real-Time Assessment
                   </p>
                 </div>
@@ -346,12 +345,12 @@ function InteractiveFolderCard({
           </div>
         )}
 
-        {/* === 2. CERTIFICATES FOLDER PAPERS (ALL 3 VISIBLE & NEATLY BOUNDED) === */}
+        {/* === 2. CERTIFICATES FOLDER PAPERS === */}
         {type === 'certificates' && (
           <div className="relative w-full h-full flex justify-center">
-            {/* Paper 1: Left - Dicoding Belajar Dasar Pemrograman Web */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-10 opacity-0 group-hover:-translate-y-5 sm:group-hover:-translate-y-7 group-hover:opacity-100 z-10">
-              <div className="w-24 sm:w-28 h-28 sm:h-34 rounded-xl bg-zinc-950 border border-teal-400/50 shadow-xl overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:-translate-x-7 sm:group-hover:-translate-x-9 group-hover:-rotate-8 group-hover:scale-95">
+            {/* Paper 1: Left - Dicoding */}
+            <div className="absolute top-2 left-1/2 folder-paper-left z-10">
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-teal-400/50 shadow-xl overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img
                     src={certDicoding}
@@ -359,20 +358,20 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2.5">
-                  <p className="text-[7.5px] font-bold text-teal-300 leading-tight truncate">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-teal-300 leading-tight truncate">
                     Dicoding Indonesia
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     Dasar Pemrograman Web
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Paper 2: Right - HubSpot Academy Service Hub */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-75 transform translate-y-10 opacity-0 group-hover:-translate-y-5 sm:group-hover:-translate-y-7 group-hover:opacity-100 z-10">
-              <div className="w-24 sm:w-28 h-28 sm:h-34 rounded-xl bg-zinc-950 border border-orange-400/50 shadow-xl overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:translate-x-7 sm:group-hover:translate-x-9 group-hover:rotate-8 group-hover:scale-95">
+            {/* Paper 2: Right - HubSpot */}
+            <div className="absolute top-2 left-1/2 folder-paper-right z-10">
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-orange-400/50 shadow-xl overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img
                     src={certHubspot}
@@ -380,20 +379,20 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2.5">
-                  <p className="text-[7.5px] font-bold text-orange-300 leading-tight truncate">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-orange-300 leading-tight truncate">
                     HubSpot Academy
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     Service Hub Certified
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Paper 3: Center (Hero) - BNSP Radio Frequency Engineer */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-12 opacity-0 group-hover:-translate-y-8 sm:group-hover:-translate-y-11 group-hover:opacity-100 z-20">
-              <div className="w-28 sm:w-34 h-32 sm:h-38 rounded-xl bg-zinc-950 border-2 border-amber-400/70 shadow-[0_16px_36px_rgba(245,158,11,0.45)] overflow-hidden flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:scale-105">
+            {/* Paper 3: Center (Hero) - BNSP */}
+            <div className="absolute top-2 left-1/2 folder-paper-center z-20">
+              <div className="w-20 sm:w-28 h-24 sm:h-32 rounded-xl bg-zinc-950 border-2 border-amber-400/70 shadow-[0_14px_30px_rgba(245,158,11,0.45)] overflow-hidden flex flex-col">
                 <div className="w-full h-full overflow-hidden bg-white">
                   <img
                     src={certBnsp}
@@ -401,12 +400,11 @@ function InteractiveFolderCard({
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1.5 pt-3">
-                  <p className="text-[8px] font-bold text-white leading-tight flex items-center justify-between">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 sm:p-1.5 pt-2.5">
+                  <p className="text-[7px] sm:text-[8px] font-bold text-white leading-tight truncate">
                     <span className="text-amber-300">Sertifikat BNSP</span>
-                    <span className="text-[7px] text-white/80">Valid →</span>
                   </p>
-                  <p className="text-[6.5px] text-white/70 truncate">
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
                     RF Engineer · LSP UNILA
                   </p>
                 </div>
@@ -419,32 +417,32 @@ function InteractiveFolderCard({
         {type === 'gallery' && (
           <div className="relative w-full h-full flex justify-center">
             {/* Paper 1: Left - Polaroid 1 */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-10 opacity-0 group-hover:-translate-y-4 sm:group-hover:-translate-y-6 group-hover:opacity-100 z-10">
-              <div className="w-22 sm:w-26 h-22 sm:h-26 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1.5 pb-2 flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:-translate-x-6 sm:group-hover:-translate-x-8 group-hover:-rotate-8 group-hover:scale-95">
-                <div className="w-full h-14 sm:h-16 rounded bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center overflow-hidden">
-                  <div className="w-5 h-5 rounded-full bg-white/20 blur-[2px]" />
+            <div className="absolute top-2 left-1/2 folder-paper-left z-10">
+              <div className="w-16 sm:w-24 h-18 sm:h-24 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
+                <div className="w-full h-11 sm:h-15 rounded bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center overflow-hidden">
+                  <div className="w-4 h-4 rounded-full bg-white/20 blur-[2px]" />
                 </div>
-                <span className="text-[7px] font-mono text-zinc-800 font-bold text-center">BEM FT UNILA</span>
+                <span className="text-[6px] sm:text-[7px] font-mono text-zinc-800 font-bold text-center truncate">BEM FT UNILA</span>
               </div>
             </div>
 
             {/* Paper 2: Right - Polaroid 2 */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-75 transform translate-y-10 opacity-0 group-hover:-translate-y-4 sm:group-hover:-translate-y-6 group-hover:opacity-100 z-10">
-              <div className="w-22 sm:w-26 h-22 sm:h-26 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1.5 pb-2 flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:translate-x-6 sm:group-hover:translate-x-8 group-hover:rotate-8 group-hover:scale-95">
-                <div className="w-full h-14 sm:h-16 rounded bg-gradient-to-br from-teal-900 to-emerald-800 flex items-center justify-center overflow-hidden">
-                  <div className="w-5 h-5 rounded-full bg-white/20 blur-[2px]" />
+            <div className="absolute top-2 left-1/2 folder-paper-right z-10">
+              <div className="w-16 sm:w-24 h-18 sm:h-24 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
+                <div className="w-full h-11 sm:h-15 rounded bg-gradient-to-br from-teal-900 to-emerald-800 flex items-center justify-center overflow-hidden">
+                  <div className="w-4 h-4 rounded-full bg-white/20 blur-[2px]" />
                 </div>
-                <span className="text-[7px] font-mono text-zinc-800 font-bold text-center">HIMATRO 2024</span>
+                <span className="text-[6px] sm:text-[7px] font-mono text-zinc-800 font-bold text-center truncate">HIMATRO 2024</span>
               </div>
             </div>
 
             {/* Paper 3: Center - Campus Activity */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform translate-y-12 opacity-0 group-hover:-translate-y-7 sm:group-hover:-translate-y-9 group-hover:opacity-100 z-20">
-              <div className="w-26 sm:w-30 h-24 sm:h-28 rounded-lg bg-white/95 text-zinc-900 shadow-[0_12px_30px_rgba(168,85,247,0.3)] p-1.5 pb-2.5 flex flex-col justify-between transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] transform group-hover:scale-105">
-                <div className="w-full h-16 sm:h-18 rounded bg-gradient-to-br from-purple-900 via-pink-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
-                  <span className="text-white/80 text-[10px] font-mono">📸 Campus Activity</span>
+            <div className="absolute top-2 left-1/2 folder-paper-center z-20">
+              <div className="w-20 sm:w-28 h-20 sm:h-26 rounded-lg bg-white/95 text-zinc-900 shadow-[0_12px_30px_rgba(168,85,247,0.3)] p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
+                <div className="w-full h-13 sm:h-17 rounded bg-gradient-to-br from-purple-900 via-pink-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
+                  <span className="text-white/90 text-[7px] sm:text-[9px] font-mono text-center px-1">📸 Activity</span>
                 </div>
-                <span className="text-[8px] font-mono text-zinc-800 font-bold text-center">Dokumentasi & Workshop</span>
+                <span className="text-[6.5px] sm:text-[8px] font-mono text-zinc-800 font-bold text-center truncate">Dokumentasi</span>
               </div>
             </div>
           </div>
@@ -754,22 +752,22 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
       <div className="absolute top-1/4 -left-32 w-80 h-80 bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
       <div className="absolute bottom-10 -right-32 w-80 h-80 bg-teal-500/10 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      {/* ── 1. HEADER: ABOUT ME & MARQUEE CAPSULE (Scroll-Reveal) ── */}
-      <ScrollReveal delay={50} direction="up" className="flex flex-col items-center text-center mb-8 sm:mb-10 max-w-6xl mx-auto w-full">
+        {/* ── 1. HEADER: ABOUT ME & MARQUEE CAPSULE (Scroll-Reveal) ── */}
+      <ScrollReveal delay={50} direction="up" className="flex flex-col items-center text-center mb-6 sm:mb-10 max-w-6xl mx-auto w-full">
         <h1
-          className="text-5xl sm:text-6xl lg:text-7xl text-white leading-none tracking-tight select-none"
+          className="text-4xl sm:text-6xl lg:text-7xl text-white leading-none tracking-tight select-none"
           style={{ fontFamily: 'Anton, sans-serif' }}
         >
           ABOUT ME
         </h1>
 
         {/* Subtitle badge: iOS 18 Frosted Glass Capsule (Kaca Transparan) */}
-        <div className="mt-4 w-full max-w-3xl sm:max-w-4xl ios-glass py-2.5 sm:py-3 rounded-2xl overflow-hidden border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_32px_rgba(0,0,0,0.5)] select-none backdrop-blur-2xl bg-white/[0.07]">
+        <div className="mt-3 sm:mt-4 w-full max-w-3xl sm:max-w-4xl ios-glass py-2 sm:py-3 rounded-2xl overflow-hidden border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_32px_rgba(0,0,0,0.5)] select-none backdrop-blur-2xl bg-white/[0.07]">
           <div className="animate-marquee flex items-center">
             {[...Array(6)].map((_, i) => (
               <span
                 key={i}
-                className="font-black uppercase text-xs sm:text-sm tracking-[0.22em] px-8 whitespace-nowrap flex items-center gap-6 text-white/90 drop-shadow-sm"
+                className="font-black uppercase text-[10px] sm:text-sm tracking-[0.18em] sm:tracking-[0.22em] px-5 sm:px-8 whitespace-nowrap flex items-center gap-4 sm:gap-6 text-white/90 drop-shadow-sm"
               >
                 <span>FULL-STACK DEVELOPER AND SOFTWARE ENGINEER</span>
                 <span className="text-emerald-400/60 font-normal">/</span>
@@ -780,15 +778,15 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
       </ScrollReveal>
 
       {/* ── 2. 2-COLUMN LAYOUT: BIO & DRAGGABLE NAMETAG (Scroll-Reveal) ── */}
-      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
 
         {/* Left Column – Text Content */}
-        <ScrollReveal delay={150} direction="left" className="lg:col-span-7 flex flex-col gap-5 sm:gap-6">
+        <ScrollReveal delay={150} direction="left" className="lg:col-span-7 flex flex-col gap-4 sm:gap-6">
           {/* Typewriter Block */}
           <div className="flex flex-col gap-1">
             {/* Baris 1: HI, I'M */}
             <div className="min-h-[1.3em] flex items-center">
-              <p className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-wider leading-none">
+              <p className="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white tracking-wider leading-none">
                 {displayed1}
               </p>
               {displayed1.length < fullLine1.length && (
@@ -798,7 +796,7 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
 
             {/* Baris 2: MUHAMAD FATIH RIZQI */}
             <div className="min-h-[1.25em] flex items-center flex-wrap">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-emerald-400 leading-tight tracking-tight">
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-emerald-400 leading-tight tracking-tight">
                 {displayed2}
               </h2>
               {displayed1.length === fullLine1.length && (

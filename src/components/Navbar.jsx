@@ -20,7 +20,7 @@ export default function Navbar({ activeSection, onNavigate, lang = 'id', onLangC
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className={`relative px-2.5 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer select-none whitespace-nowrap ${
+              className={`relative px-2 sm:px-4 py-1.5 rounded-full text-[10.5px] sm:text-sm font-semibold transition-all duration-200 cursor-pointer select-none whitespace-nowrap ${
                 isActive
                   ? 'bg-white/25 text-white border border-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
                   : 'text-white/85 hover:text-white hover:bg-white/15'
@@ -32,7 +32,7 @@ export default function Navbar({ activeSection, onNavigate, lang = 'id', onLangC
         })}
 
         {/* Divider */}
-        <div className="w-px h-4 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0" />
+        <div className="w-px h-3.5 sm:h-4 bg-white/20 mx-0.5 sm:mx-1 flex-shrink-0" />
 
         {/* Language toggle */}
         <div className="flex items-center gap-0.5">
@@ -41,7 +41,7 @@ export default function Navbar({ activeSection, onNavigate, lang = 'id', onLangC
               key={l}
               type="button"
               onClick={() => onLangChange && onLangChange(l)}
-              className={`px-2 sm:px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-bold tracking-wider transition-all cursor-pointer select-none ${
+              className={`px-1.5 sm:px-2.5 py-1 rounded-full text-[9.5px] sm:text-xs font-bold tracking-wider transition-all cursor-pointer select-none ${
                 lang === l
                   ? 'bg-white/25 text-white border border-white/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]'
                   : 'text-white/70 hover:text-white'
