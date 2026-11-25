@@ -90,18 +90,19 @@ function AtmosphereCanvas({ progress }) {
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Dynamic Sky/Atmosphere Gradient transitioning smoothly from Space (#02040a) -> Deep Twilight (#0c1d38) -> Atmospheric Dusk (#1e3b62) -> Soft Sky
+      // 1. Dynamic Sky/Atmosphere Gradient transitioning smoothly from Space (#02040a) -> Deep Twilight (#0c1d38) -> Atmospheric Dusk (#2a4d73) -> Horizon (#3a6896)
       const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
       if (p < 0.5) {
         const t = p / 0.5;
-        bgGrad.addColorStop(0, `rgba(2, 4, 10, ${1 - t * 0.25})`);
-        bgGrad.addColorStop(0.5, `rgba(${Math.round(4 + t * 14)}, ${Math.round(10 + t * 24)}, ${Math.round(26 + t * 38)}, 1)`);
-        bgGrad.addColorStop(1, `rgba(${Math.round(12 + t * 20)}, ${Math.round(30 + t * 32)}, ${Math.round(62 + t * 45)}, 1)`);
+        bgGrad.addColorStop(0, `rgba(2, 4, 10, ${t * 0.7})`);
+        bgGrad.addColorStop(0.25, `rgba(${Math.round(2 + t * 8)}, ${Math.round(6 + t * 14)}, ${Math.round(16 + t * 24)}, 0.92)`);
+        bgGrad.addColorStop(0.6, `rgba(${Math.round(6 + t * 18)}, ${Math.round(16 + t * 28)}, ${Math.round(38 + t * 44)}, 1)`);
+        bgGrad.addColorStop(1, `rgba(${Math.round(14 + t * 28)}, ${Math.round(34 + t * 42)}, ${Math.round(70 + t * 55)}, 1)`);
       } else {
         const t = (p - 0.5) / 0.5;
-        bgGrad.addColorStop(0, `rgba(${Math.round(18 + t * 10)}, ${Math.round(34 + t * 19)}, ${Math.round(64 + t * 24)}, 1)`);
-        bgGrad.addColorStop(0.55, `rgba(${Math.round(32 + t * 40)}, ${Math.round(62 + t * 53)}, ${Math.round(107 + t * 52)}, 1)`);
-        bgGrad.addColorStop(1, `rgba(${Math.round(72 + t * 133)}, ${Math.round(115 + t * 111)}, ${Math.round(159 + t * 86)}, 1)`);
+        bgGrad.addColorStop(0, `rgba(${Math.round(10 + t * 20)}, ${Math.round(20 + t * 38)}, ${Math.round(40 + t * 55)}, ${0.7 + t * 0.3})`);
+        bgGrad.addColorStop(0.55, `rgba(${Math.round(24 + t * 18)}, ${Math.round(44 + t * 33)}, ${Math.round(82 + t * 33)}, 1)`);
+        bgGrad.addColorStop(1, `rgba(${Math.round(42 + t * 16)}, ${Math.round(76 + t * 28)}, ${Math.round(125 + t * 25)}, 1)`);
       }
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, width, height);
@@ -183,8 +184,8 @@ function AtmosphereCanvas({ progress }) {
 function AnimatedCloudsCanvas() {
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0">
-      {/* Balanced atmospheric sky backdrop (Harmonis, tidak terlalu silau/kontras tajam) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1c3558] via-[#48739f] via-50% to-[#cde2f5]" />
+      {/* Balanced atmospheric sky backdrop (Harmonis, menyambung mulus dari portal #3a6896) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#3a6896] via-[#6899c4] via-45% to-[#cde2f5]" />
       {/* Soft warm sunlight glow */}
       <div className="absolute top-0 right-[15%] w-[60%] h-[40%] rounded-full bg-cyan-100/30 blur-[90px]" />
       {/* CSS animated clouds - GPU-accelerated transform only */}
@@ -651,10 +652,10 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
   };
 
   // ── 3D Fly-Through Zoom (Tulisan Maju ke Layar) ──
-  const zoomScale = 1 + Math.pow(doorProgress, 1.7) * 8.2;
-  const textOpacity = Math.max(0, 1 - Math.pow(doorProgress, 1.3) * 1.3);
-  const textBlur = Math.max(0, (doorProgress - 0.22) * 12);
-  const skyOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.15) / 0.70));
+  const zoomScale = 0.88 + Math.pow(doorProgress, 1.75) * 9.5;
+  const textOpacity = doorProgress < 0.35 ? 1 : Math.max(0, 1 - (doorProgress - 0.35) / 0.45);
+  const textBlur = doorProgress < 0.38 ? 0 : (doorProgress - 0.38) * 14;
+  const skyOverlayOpacity = Math.min(1, Math.max(0, (doorProgress - 0.20) / 0.65));
 
   return (
     <div className="relative w-full">
@@ -664,7 +665,7 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       <div
         id="portfolio-portal"
         ref={doorContainerRef}
-        className="relative w-full h-[55vh] select-none z-20"
+        className="relative w-full h-[145vh] select-none z-20"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
@@ -672,13 +673,13 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
           <div className="absolute inset-0 pointer-events-none -z-20">
             <AtmosphereCanvas progress={doorProgress} />
             {/* Top feathering so About space blends seamlessly into Atmosphere */}
-            <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#02040a] to-transparent" />
+            <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#02040a]/90 via-[#02040a]/40 to-transparent" />
           </div>
 
-          {/* Sky Overlay: atmospheric dark navy -> sky blue (not harsh white) */}
+          {/* Sky Overlay: menyatu mulus ke tepi atas halaman Portofolio (#3a6896) */}
           <div
             style={{ opacity: skyOverlayOpacity }}
-            className="absolute inset-0 bg-gradient-to-b from-[#182e4e] via-[#48739f] via-60% to-[#cde2f5] pointer-events-none -z-10"
+            className="absolute inset-0 bg-gradient-to-b from-[#1e3a5f] via-[#2a4d73] to-[#3a6896] pointer-events-none -z-10"
           />
 
           {/* Fly-Through Zoom Text — tulisan "maju" melewati layar */}
@@ -686,14 +687,14 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
             style={{
               transform: `scale(${zoomScale})`,
               opacity: textOpacity,
-              filter: textBlur > 0 ? `blur(${textBlur}px)` : 'none',
+              filter: textBlur > 0.2 ? `blur(${textBlur}px)` : 'none',
               willChange: 'transform, opacity, filter',
             }}
-            className="relative flex items-center justify-center z-30 pointer-events-none"
+            className="relative flex items-center justify-center z-30 pointer-events-none px-4"
           >
             <h1
               style={{ fontFamily: 'Anton, sans-serif' }}
-              className="text-7xl sm:text-9xl md:text-[12rem] lg:text-[15rem] xl:text-[17rem] leading-none uppercase bg-gradient-to-b from-[#cde2f5] via-[#8bbfd9] to-[#48739f] bg-clip-text text-transparent drop-shadow-[0_0_60px_rgba(136,191,217,0.6)] select-none"
+              className="text-6xl sm:text-8xl md:text-[10rem] lg:text-[13rem] xl:text-[15rem] leading-none uppercase bg-gradient-to-b from-white via-[#cde2f5] to-[#7dd3fc] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(125,211,252,0.45)] select-none text-center whitespace-nowrap"
             >
               PORTOFOLIO
             </h1>
@@ -711,10 +712,10 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       <section
         id="portfolio"
         ref={portfolioSectionRef}
-        className="relative min-h-screen w-full text-slate-900 flex flex-col justify-center items-center pt-6 sm:pt-8 pb-24 px-3 sm:px-6 lg:px-10 select-none z-20 overflow-hidden"
+        className="relative min-h-screen w-full text-slate-900 flex flex-col justify-center items-center pt-10 sm:pt-14 pb-24 px-3 sm:px-6 lg:px-10 select-none z-20 overflow-hidden"
       >
-        {/* Top Smooth Gradient Feathering from Atmosphere Portal */}
-        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#182e4e] via-[#325882]/40 to-transparent pointer-events-none z-10" />
+        {/* Top Smooth Gradient Feathering matching Portal bottom (#3a6896) */}
+        <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-[#3a6896] to-transparent pointer-events-none z-10" />
 
         {/* Animated Moving Clouds Canvas */}
         <AnimatedCloudsCanvas />

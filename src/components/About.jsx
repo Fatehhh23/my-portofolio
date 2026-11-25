@@ -261,17 +261,18 @@ function FlowchartTimeline({ items, activeCard, toggleCard }) {
   );
 }
 
-// ── Interactive Glass Folder Card with Emerging Documents on Cursor Hover ──
+// ── Interactive Glass Folder Card with Emerging Documents on Cursor Hover / Tap ──
 function InteractiveFolderCard({
   type = 'projects', // 'projects' | 'certificates' | 'gallery'
   number,
   title,
-  onClick,
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div
-      onClick={onClick}
-      className="group relative cursor-pointer select-none transition-all duration-300 hover:scale-[1.02] active:scale-95 w-full pt-8 sm:pt-10"
+      onClick={() => setIsOpen((prev) => !prev)}
+      className={`group relative cursor-pointer select-none transition-all duration-300 hover:scale-[1.02] active:scale-95 w-full pt-8 sm:pt-10 ${isOpen ? 'is-folder-open' : ''}`}
     >
       {/* ── EMERGING DOCUMENTS / PAPERS (Tucked behind Front Glass) ── */}
       <div className="absolute inset-x-0 top-0 h-32 flex justify-center pointer-events-none z-10">
@@ -1144,13 +1145,6 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
                     type="projects"
                     number="5"
                     title={isId ? 'PROYEK' : 'PROJECTS'}
-                    onClick={() => {
-                      if (onOpenPortfolio) onOpenPortfolio('projects');
-                      else {
-                        const el = document.getElementById('portfolio');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
                   />
                 </ScrollReveal>
 
@@ -1160,13 +1154,6 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
                     type="certificates"
                     number="14"
                     title={isId ? 'LISENSI DAN SERTIFIKASI' : 'LICENSES & CERTIFICATIONS'}
-                    onClick={() => {
-                      if (onOpenPortfolio) onOpenPortfolio('sertificate');
-                      else {
-                        const el = document.getElementById('portfolio');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
                   />
                 </ScrollReveal>
 
@@ -1178,13 +1165,6 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
                   <InteractiveFolderCard
                     type="gallery"
                     title={isId ? 'GALERI AKTIVITAS' : 'ACTIVITY GALLERY'}
-                    onClick={() => {
-                      if (onOpenPortfolio) onOpenPortfolio('galery');
-                      else {
-                        const el = document.getElementById('portfolio');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
                   />
                 </ScrollReveal>
               </div>
