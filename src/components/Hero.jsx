@@ -728,7 +728,7 @@ export default function Hero({ onNavigate, lang = 'id' }) {
                   {lang === 'id' ? 'Website Portofolio Saya' : 'Portfolio Website'}
                 </h1>
                 <p className="text-white/55 text-[10px] sm:text-xs tracking-[0.2em] uppercase mt-1">
-                  Muhamad Fatih Rizqi · Full-Stack Developer
+                  Muhamad Fatih Rizqi · 
                 </p>
               </div>
             </div>
