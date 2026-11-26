@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Mail,
+  Phone,
   Send,
   MapPin,
   CheckCircle2,
@@ -23,6 +24,7 @@ export default function Contact({ lang = 'id' }) {
   });
 
   const [copied, setCopied] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const isId = lang === 'id';
@@ -54,6 +56,12 @@ export default function Contact({ lang = 'id' }) {
     navigator.clipboard.writeText('muhamadfatirizki@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyPhone = () => {
+    navigator.clipboard.writeText('081289123241');
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   const handleSubmit = (e) => {
@@ -152,6 +160,41 @@ export default function Contact({ lang = 'id' }) {
                   className="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-xs text-white flex items-center gap-1.5 transition-all cursor-pointer select-none active:scale-95 shrink-0"
                 >
                   {copied ? (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                      <span>{isId ? 'Disalin!' : 'Copied!'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-white/80" />
+                      <span>{isId ? 'Salin' : 'Copy'}</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between gap-2 p-3.5 rounded-2xl bg-white/[0.06] border border-white/15">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-emerald-300 shrink-0">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[11px] text-white/60 block">
+                      {isId ? 'Nomor Telepon' : 'Phone Number'}
+                    </span>
+                    <a
+                      href="tel:081289123241"
+                      className="text-xs sm:text-sm font-semibold text-white hover:text-emerald-300 transition-colors truncate block"
+                    >
+                      081289123241
+                    </a>
+                  </div>
+                </div>
+                <button
+                  onClick={handleCopyPhone}
+                  className="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-xs text-white flex items-center gap-1.5 transition-all cursor-pointer select-none active:scale-95 shrink-0"
+                >
+                  {copiedPhone ? (
                     <>
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
                       <span>{isId ? 'Disalin!' : 'Copied!'}</span>

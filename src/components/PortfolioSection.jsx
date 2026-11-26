@@ -312,78 +312,128 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
   const projectsData = [
     {
       id: 'p-1',
-      title: 'TIRTA – Real-Time Earthquake Monitoring & AI-Based Tsunami Prediction',
-      subtitle: 'WebGIS & AI Tsunami Prediction',
-      category: 'WebGIS & AI Simulation',
+      title: isId
+        ? 'TIRTA – Pemantauan Gempa Real-Time & Prediksi Tsunami Berbasis AI'
+        : 'TIRTA – Real-Time Earthquake Monitoring & AI-Based Tsunami Prediction',
+      subtitle: isId ? 'WebGIS & Prediksi Tsunami AI' : 'WebGIS & AI Tsunami Prediction',
+      category: isId ? 'WebGIS & Simulasi AI' : 'WebGIS & AI Simulation',
       year: '2025',
       image: projectTirta,
-      description: 'Mengembangkan aplikasi WebGIS full-stack untuk pemantauan gempa bumi secara real-time dan prediksi tsunami menggunakan AI berbasis CNN, dengan integrasi data BMKG dan USGS serta visualisasi geospasial interaktif.',
+      description: isId
+        ? 'Mengembangkan aplikasi WebGIS full-stack untuk pemantauan gempa bumi secara real-time dan prediksi tsunami menggunakan AI berbasis CNN, dengan integrasi data BMKG dan USGS serta visualisasi geospasial interaktif.'
+        : 'Developed a full-stack WebGIS application for real-time earthquake monitoring and tsunami prediction using a CNN-based AI model, integrated with BMKG and USGS data and interactive geospatial visualization.',
       tech: ['React', 'Python', 'FastAPI', 'PostgreSQL', 'PostGIS', 'REST API', 'CNN'],
-      features: [
-        'Pemantauan gempa bumi real-time terintegrasi data BMKG dan USGS',
-        'Prediksi tsunami menggunakan model AI berbasis Convolutional Neural Network (CNN)',
-        'Visualisasi peta geospasial interaktif berbasis PostgreSQL & PostGIS'
-      ],
+      features: isId
+        ? [
+            'Pemantauan gempa bumi real-time terintegrasi data BMKG dan USGS',
+            'Prediksi tsunami menggunakan model AI berbasis Convolutional Neural Network (CNN)',
+            'Visualisasi peta geospasial interaktif berbasis PostgreSQL & PostGIS',
+          ]
+        : [
+            'Real-time earthquake monitoring integrated with BMKG and USGS data',
+            'Tsunami prediction using a Convolutional Neural Network (CNN) AI model',
+            'Interactive geospatial map visualization powered by PostgreSQL & PostGIS',
+          ],
     },
     {
       id: 'p-2',
-      title: 'AgriEdge – Offline Smart Farming & Edge AI Monitoring System',
-      subtitle: 'Edge AI & Encrypted Offline Ledger',
-      category: 'Edge AI & Smart Farming',
+      title: isId
+        ? 'AgriEdge – Sistem Smart Farming Offline & Pemantauan Edge AI'
+        : 'AgriEdge – Offline Smart Farming & Edge AI Monitoring System',
+      subtitle: isId ? 'Edge AI & Ledger Offline Terenkripsi' : 'Edge AI & Encrypted Offline Ledger',
+      category: isId ? 'Edge AI & Pertanian Cerdas' : 'Edge AI & Smart Farming',
       year: '2026',
       image: projectAgriedge,
-      description: 'Mengembangkan sistem smart farming berbasis Edge AI yang menganalisis data sensor tanah secara lokal menggunakan Meta-Learning tanpa koneksi internet. Sistem menghasilkan rekomendasi pertanian dan menyimpan data ke dalam ledger QR terenkripsi.',
+      description: isId
+        ? 'Mengembangkan sistem smart farming berbasis Edge AI yang menganalisis data sensor tanah secara lokal menggunakan Meta-Learning tanpa koneksi internet. Sistem menghasilkan rekomendasi pertanian dan menyimpan data ke dalam ledger QR terenkripsi.'
+        : 'Developed an Edge AI-based smart farming system that analyzes soil sensor data locally using Meta-Learning without an internet connection, generating agricultural recommendations and storing data in an encrypted QR ledger.',
       tech: ['Raspberry Pi', 'Linux', 'Edge AI', 'Meta-Learning', 'Python', 'AES-256 GCM', 'PBKDF2'],
-      features: [
-        'Inferensi AI lokal (< 0.5 detik) menggunakan Meta-Learning tanpa internet',
-        'Autentikasi lokal aman terhadap hash PBKDF2 di Raspberry Pi',
-        'Penyimpanan rekomendasi ke ledger QR terenkripsi AES-256 GCM'
-      ],
+      features: isId
+        ? [
+            'Inferensi AI lokal (< 0.5 detik) menggunakan Meta-Learning tanpa internet',
+            'Autentikasi lokal aman terhadap hash PBKDF2 di Raspberry Pi',
+            'Penyimpanan rekomendasi ke ledger QR terenkripsi AES-256 GCM',
+          ]
+        : [
+            'Local AI inference (< 0.5s) using Meta-Learning completely offline',
+            'Secure local authentication with PBKDF2 hashing on Raspberry Pi',
+            'Recommendation storage in an AES-256 GCM encrypted QR ledger',
+          ],
     },
     {
       id: 'p-3',
-      title: 'Bee-Tricopter – IoT-Based Drone Monitoring Dashboard',
-      subtitle: 'Live Video Streaming & IoT Telemetry',
-      category: 'IoT & Drone Monitoring',
+      title: isId
+        ? 'Bee-Tricopter – Dashboard Pemantauan Drone Berbasis IoT'
+        : 'Bee-Tricopter – IoT-Based Drone Monitoring Dashboard',
+      subtitle: isId ? 'Live Video Streaming & Telemetri IoT' : 'Live Video Streaming & IoT Telemetry',
+      category: isId ? 'IoT & Pemantauan Drone' : 'IoT & Drone Monitoring',
       year: '2025',
       image: projectDrone,
-      description: 'Membangun dashboard monitoring drone berbasis web dengan fitur live video streaming dan integrasi data telemetri IoT melalui ESP32 untuk pemantauan perangkat secara real-time.',
+      description: isId
+        ? 'Membangun dashboard monitoring drone berbasis web dengan fitur live video streaming dan integrasi data telemetri IoT melalui ESP32 untuk pemantauan perangkat secara real-time.'
+        : 'Built a web-based drone monitoring dashboard featuring live video streaming and IoT telemetry data integration via ESP32 for real-time device monitoring.',
       tech: ['React', 'Python', 'FastAPI', 'ESP32', 'IoT', 'REST API'],
-      features: [
-        'Live video streaming pemantauan drone langsung melalui dashboard web',
-        'Integrasi data telemetri IoT real-time menggunakan mikrokontroler ESP32',
-        'Backend FastAPI & REST API responsif untuk pemantauan status perangkat'
-      ],
+      features: isId
+        ? [
+            'Live video streaming pemantauan drone langsung melalui dashboard web',
+            'Integrasi data telemetri IoT real-time menggunakan mikrokontroler ESP32',
+            'Backend FastAPI & REST API responsif untuk pemantauan status perangkat',
+          ]
+        : [
+            'Live drone video streaming directly through the web dashboard',
+            'Real-time IoT telemetry data integration using ESP32 microcontroller',
+            'Responsive FastAPI & REST API backend for device status monitoring',
+          ],
     },
     {
       id: 'p-4',
-      title: 'Vitalsense – IoT-Based Health Monitoring System',
-      subtitle: 'Real-time Vital Signs Web Server',
-      category: 'IoT & Health Monitoring',
+      title: isId
+        ? 'Vitalsense – Sistem Pemantauan Kesehatan Berbasis IoT'
+        : 'Vitalsense – IoT-Based Health Monitoring System',
+      subtitle: isId ? 'Web Server Tanda Vital Real-Time' : 'Real-time Vital Signs Web Server',
+      category: isId ? 'IoT & Pemantauan Kesehatan' : 'IoT & Health Monitoring',
       year: '2024',
       image: projectIot,
-      description: 'Mengembangkan sistem pemantauan tanda vital berbasis IoT menggunakan ESP8266 dan sensor kesehatan yang terintegrasi dengan web server serta aplikasi web responsif untuk menampilkan data secara real-time.',
-      tech: ['ESP8266', 'IoT', 'Sensors', 'Web Server', 'HTML', 'CSS', 'JavaScript'],
-      features: [
-        'Pemantauan denyut jantung & saturasi oksigen (SpO2) secara real-time',
-        'Integrasi langsung mikrokontroler ESP8266 dengan web server lokal',
-        'Antarmuka web responsif untuk visualisasi data pasien'
-      ],
+      description: isId
+        ? 'Mengembangkan sistem pemantauan tanda vital berbasis IoT menggunakan ESP8266 dan sensor kesehatan yang terintegrasi dengan web server serta aplikasi web responsif untuk menampilkan data secara real-time.'
+        : 'Developed an IoT-based vital signs monitoring system using ESP8266 and health sensors integrated with a web server and responsive web application to display real-time patient data.',
+      tech: ['ESP8266', 'IoT', isId ? 'Sensor Kesehatan' : 'Sensors', 'Web Server', 'HTML', 'CSS', 'JavaScript'],
+      features: isId
+        ? [
+            'Pemantauan denyut jantung & saturasi oksigen (SpO2) secara real-time',
+            'Integrasi langsung mikrokontroler ESP8266 dengan web server lokal',
+            'Antarmuka web responsif untuk visualisasi data pasien',
+          ]
+        : [
+            'Real-time heart rate & blood oxygen saturation (SpO2) monitoring',
+            'Direct integration of ESP8266 microcontroller with a local web server',
+            'Responsive web interface for patient data visualization',
+          ],
     },
     {
       id: 'p-5',
-      title: 'Edly Station – Internship Capstone Web Application',
+      title: isId
+        ? 'Edly Station – Aplikasi Web Capstone Magang'
+        : 'Edly Station – Internship Capstone Web Application',
       subtitle: 'Coding Camp x DBS Foundation / Dicoding',
-      category: 'Full-Stack Web Application',
+      category: isId ? 'Aplikasi Web Full-Stack' : 'Full-Stack Web Application',
       year: '2025',
       image: projectEdly,
-      description: 'Mengembangkan aplikasi web sebagai proyek akhir program Coding Camp x DBS Foundation / Dicoding dengan menerapkan pengembangan frontend, backend, RESTful API, dan integrasi database menggunakan pendekatan Software Development Life Cycle (SDLC).',
+      description: isId
+        ? 'Mengembangkan aplikasi web sebagai proyek akhir program Coding Camp x DBS Foundation / Dicoding dengan menerapkan pengembangan frontend, backend, RESTful API, dan integrasi database menggunakan pendekatan Software Development Life Cycle (SDLC).'
+        : 'Developed a full-stack web application as the final capstone project for Coding Camp x DBS Foundation / Dicoding, implementing frontend, backend, RESTful API, and database integration using the Software Development Life Cycle (SDLC).',
       tech: ['JavaScript', 'Node.js', 'Express.js', 'REST API', 'MySQL/PostgreSQL'],
-      features: [
-        'Arsitektur full-stack frontend, backend Express.js, dan RESTful API',
-        'Integrasi basis data relasional MySQL/PostgreSQL',
-        'Dikembangkan dengan metodologi Software Development Life Cycle (SDLC)'
-      ],
+      features: isId
+        ? [
+            'Arsitektur full-stack frontend, backend Express.js, dan RESTful API',
+            'Integrasi basis data relasional MySQL/PostgreSQL',
+            'Dikembangkan dengan metodologi Software Development Life Cycle (SDLC)',
+          ]
+        : [
+            'Full-stack architecture with frontend, Express.js backend, and RESTful APIs',
+            'Relational database integration with MySQL/PostgreSQL',
+            'Built following Software Development Life Cycle (SDLC) methodology',
+          ],
     },
   ];
 
@@ -391,34 +441,48 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
   const certificatesData = [
     {
       id: 'c-1',
-      title: 'Sertifikat Kompetensi BNSP – Perekayasa Radio Frekuensi',
-      subtitle: 'Badan Nasional Sertifikasi Profesi · LSP UNILA',
-      issuer: 'Badan Nasional Sertifikasi Profesi · LSP UNILA',
+      title: isId
+        ? 'Sertifikat Kompetensi BNSP – Perekayasa Radio Frekuensi'
+        : 'BNSP Competency Certificate – Radio Frequency Engineer',
+      subtitle: isId ? 'Badan Nasional Sertifikasi Profesi · LSP UNILA' : 'National Professional Certification Agency · LSP UNILA',
+      issuer: isId ? 'Badan Nasional Sertifikasi Profesi · LSP UNILA' : 'National Professional Certification Agency · LSP UNILA',
       year: '2025 – 2028',
       image: certBnsp,
-      description: 'Sertifikasi kompetensi resmi tingkat nasional dari BNSP untuk bidang Perekayasaan dan Perencanaan Jaringan Seluler dengan kualifikasi Perekayasa Radio Frekuensi (RF Engineer).',
-      skills: ['Perencanaan Frekuensi Seluler', 'Pengukuran Propagasi Sinyal', 'Analisis Link Budget RF', 'Optimasi Cakupan Jaringan'],
+      description: isId
+        ? 'Sertifikasi kompetensi resmi tingkat nasional dari BNSP untuk bidang Perekayasaan dan Perencanaan Jaringan Seluler dengan kualifikasi Perekayasa Radio Frekuensi (RF Engineer).'
+        : 'Official national competency certification from BNSP in Cellular Network Engineering and Planning with Radio Frequency (RF) Engineer qualification.',
+      skills: isId
+        ? ['Perencanaan Frekuensi Seluler', 'Pengukuran Propagasi Sinyal', 'Analisis Link Budget RF', 'Optimasi Cakupan Jaringan']
+        : ['Cellular Frequency Planning', 'Signal Propagation Measurement', 'RF Link Budget Analysis', 'Network Coverage Optimization'],
       credentialId: '61921 6201 0000113 2025',
     },
     {
       id: 'c-2',
-      title: 'Edukasa.id – Pelatihan Nasional Terampil Bekerja dengan AI',
-      subtitle: 'PT Sumber Belajar Bersama · Nilai Akhir 100 (Sangat Baik · 40 JP)',
+      title: isId
+        ? 'Edukasa.id – Pelatihan Nasional Terampil Bekerja dengan AI'
+        : 'Edukasa.id – National Training on Working Effectively with AI',
+      subtitle: isId
+        ? 'PT Sumber Belajar Bersama · Nilai Akhir 100 (Sangat Baik · 40 JP)'
+        : 'PT Sumber Belajar Bersama · Final Score 100 (Excellent · 40 Hours)',
       issuer: 'Edukasa.id · PT Sumber Belajar Bersama',
-      year: 'Oktober 2026',
+      year: isId ? 'Oktober 2026' : 'October 2026',
       image: certEdukasa,
-      description: 'Pelatihan Nasional Terampil Bekerja dengan AI: Praktik Mengelola Dokumen, Data, dan Presentasi (40 JP) dengan hasil evaluasi akhir Nilai 100 (Sangat Baik).',
+      description: isId
+        ? 'Pelatihan Nasional Terampil Bekerja dengan AI: Praktik Mengelola Dokumen, Data, dan Presentasi (40 JP) dengan hasil evaluasi akhir Nilai 100 (Sangat Baik).'
+        : 'National Training on Working Effectively with AI: Managing Documents, Data, and Presentations (40 Hours) with a final evaluation score of 100 (Excellent).',
       skills: ['AI Document Management', 'AI Data Analysis', 'AI Presentation & Storytelling', 'Prompt Productivity'],
       credentialId: '13.003/ED-NSTI/X/2026/VIBG62626',
     },
     {
       id: 'c-3',
       title: 'Programmer Zaman Now – Software Architecture Patterns',
-      subtitle: 'Programmer Zaman Now · Penyelesaian 100%',
+      subtitle: isId ? 'Programmer Zaman Now · Penyelesaian 100%' : 'Programmer Zaman Now · 100% Completion',
       issuer: 'Programmer Zaman Now',
-      year: '1 Oktober 2026',
+      year: isId ? '1 Oktober 2026' : 'October 1, 2026',
       image: certPzn,
-      description: 'Sertifikat kelulusan kelas Software Architecture Patterns dengan tingkat penyelesaian 100%, mencakup desain arsitektur perangkat lunak yang skalabel, modular, dan maintainable.',
+      description: isId
+        ? 'Sertifikat kelulusan kelas Software Architecture Patterns dengan tingkat penyelesaian 100%, mencakup desain arsitektur perangkat lunak yang skalabel, modular, dan maintainable.'
+        : 'Completion certificate for Software Architecture Patterns with 100% completion rate, covering scalable, modular, and maintainable software architecture design.',
       skills: ['Software Architecture', 'Clean Architecture', 'Design Patterns', 'Scalable System Design'],
       credentialId: 'PZN-course-software-architecture-patterns-21450-1790811368',
     },
@@ -429,106 +493,142 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       issuer: 'HubSpot Academy Global',
       year: 'Oct 2026 – Oct 2027',
       image: certHubspot,
-      description: 'Sertifikasi profesional global dalam manajemen layanan pelanggan digital, otomatisasi tiket bantuan (help desk), knowledge base, dan optimasi kepuasan pengguna (CSAT).',
+      description: isId
+        ? 'Sertifikasi profesional global dalam manajemen layanan pelanggan digital, otomatisasi tiket bantuan (help desk), knowledge base, dan optimasi kepuasan pengguna (CSAT).'
+        : 'Global professional certification in digital customer service management, help desk ticket automation, knowledge base, and customer satisfaction (CSAT) optimization.',
       skills: ['Customer Experience Strategy', 'Help Desk & Ticket Automation', 'SLA Management', 'Customer Feedback Analytics'],
       credentialId: 'a054491f084a4784947c50e6816a7fda',
     },
     {
       id: 'c-5',
       title: 'Coding Camp Powered by DBS Foundation – Full Stack Web Developer',
-      subtitle: 'Dicoding & DBS Foundation · Students Full Graduate',
+      subtitle: isId ? 'Dicoding & DBS Foundation · Lulusan Penuh' : 'Dicoding & DBS Foundation · Full Graduate',
       issuer: 'Dicoding Indonesia & PT Bank DBS Indonesia',
       year: 'Feb – Jul 2025',
       image: certCodingcamp,
-      description: 'Lulusan penuh program seleksi ketat Coding Camp powered by DBS Foundation spesialisasi Front-End dan Back-End Developer (10 Februari – 16 Juli 2025).',
+      description: isId
+        ? 'Lulusan penuh program seleksi ketat Coding Camp powered by DBS Foundation spesialisasi Front-End dan Back-End Developer (10 Februari – 16 Juli 2025).'
+        : 'Full graduate of the selective Coding Camp powered by DBS Foundation program specializing in Front-End and Back-End Web Development (Feb 10 – Jul 16, 2025).',
       skills: ['Front-End Development', 'Back-End Development', 'Capstone Project', 'English & Soft Skills'],
       credentialId: 'CC25/GRAD/XXV-07/FC248D5Y2134',
     },
     {
       id: 'c-6',
-      title: 'Dicoding – Belajar Pengembangan Web Intermediate',
+      title: isId
+        ? 'Dicoding – Belajar Pengembangan Web Intermediate'
+        : 'Dicoding – Intermediate Web Development',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Juni 2025 – 2028',
+      year: isId ? 'Juni 2025 – 2028' : 'June 2025 – 2028',
       image: certDicodingWebInt,
-      description: 'Sertifikat kompetensi kelulusan kelas Belajar Pengembangan Web Intermediate dari Dicoding Indonesia mencakup aksesibilitas web, animasi, SPA, dan Progressive Web App.',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan kelas Belajar Pengembangan Web Intermediate dari Dicoding Indonesia mencakup aksesibilitas web, animasi, SPA, dan Progressive Web App.'
+        : 'Competency certificate for Intermediate Web Development from Dicoding Indonesia covering web accessibility, animations, Single Page Applications (SPA), and Progressive Web Apps.',
       skills: ['Progressive Web Apps', 'Web Accessibility', 'Single Page Application', 'RESTful Integration'],
       credentialId: 'KEXL7OQYWXG2',
     },
     {
       id: 'c-7',
-      title: 'Dicoding – Belajar Fundamental Front-End Web Development',
+      title: isId
+        ? 'Dicoding – Belajar Fundamental Front-End Web Development'
+        : 'Dicoding – Front-End Web Development Fundamentals',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
       year: 'April 2025 – 2028',
       image: certDicodingFeFund,
-      description: 'Sertifikat kompetensi kelulusan kelas Belajar Fundamental Front-End Web Development meliputi ES6, Web Components, Webpack module bundler, dan Asynchronous Fetch API.',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan kelas Belajar Fundamental Front-End Web Development meliputi ES6, Web Components, Webpack module bundler, dan Asynchronous Fetch API.'
+        : 'Competency certificate for Front-End Web Development Fundamentals covering ES6, Web Components, Webpack module bundler, and Asynchronous Fetch API.',
       skills: ['JavaScript ES6', 'Web Components', 'Webpack', 'Asynchronous REST API'],
       credentialId: 'JLX19QRYNP72',
     },
     {
       id: 'c-8',
-      title: 'Dicoding – Belajar Back-End Pemula dengan JavaScript',
+      title: isId
+        ? 'Dicoding – Belajar Back-End Pemula dengan JavaScript'
+        : 'Dicoding – Back-End Development for Beginners with JavaScript',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Juni 2025 – 2028',
+      year: isId ? 'Juni 2025 – 2028' : 'June 2025 – 2028',
       image: certDicodingBe,
-      description: 'Sertifikat kompetensi kelulusan membangun RESTful API dan layanan Back-End menggunakan Node.js serta framework Hapi.js beserta pengujian otomatis dengan Postman.',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan membangun RESTful API dan layanan Back-End menggunakan Node.js serta framework Hapi.js beserta pengujian otomatis dengan Postman.'
+        : 'Competency certificate for building RESTful APIs and Back-End services using Node.js and Hapi.js framework with automated API testing in Postman.',
       skills: ['Node.js', 'Hapi.js', 'RESTful API Design', 'API Testing'],
       credentialId: '1RXYE5YMKZVM',
     },
     {
       id: 'c-9',
-      title: 'Dicoding – Belajar Membuat Front-End Web untuk Pemula',
+      title: isId
+        ? 'Dicoding – Belajar Membuat Front-End Web untuk Pemula'
+        : 'Dicoding – Building Front-End Web for Beginners',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Maret 2025 – 2028',
+      year: isId ? 'Maret 2025 – 2028' : 'March 2025 – 2028',
       image: certDicodingFePemula,
-      description: 'Sertifikat kompetensi kelulusan manipulasi DOM, event handling interaktif, serta penyimpanan data sisi klien menggunakan Web Storage (localStorage & sessionStorage).',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan manipulasi DOM, event handling interaktif, serta penyimpanan data sisi klien menggunakan Web Storage (localStorage & sessionStorage).'
+        : 'Competency certificate covering DOM manipulation, interactive event handling, and client-side data storage using Web Storage (localStorage & sessionStorage).',
       skills: ['DOM Manipulation', 'Interactive Web Events', 'Browser Object Model', 'Web Storage'],
       credentialId: '1OP82M68LPQK',
     },
     {
       id: 'c-10',
-      title: 'Dicoding – Belajar Dasar Pemrograman JavaScript',
+      title: isId
+        ? 'Dicoding – Belajar Dasar Pemrograman JavaScript'
+        : 'Dicoding – JavaScript Programming Basics',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Maret 2025 – 2028',
+      year: isId ? 'Maret 2025 – 2028' : 'March 2025 – 2028',
       image: certDicodingJs,
-      description: 'Sertifikat kompetensi kelulusan dasar pemrograman JavaScript modern meliputi struktur data, OOP, functional programming, asynchronous process, dan modularisasi.',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan dasar pemrograman JavaScript modern meliputi struktur data, OOP, functional programming, asynchronous process, dan modularisasi.'
+        : 'Competency certificate for modern JavaScript programming fundamentals including data structures, OOP, functional programming, asynchronous processes, and modularization.',
       skills: ['JavaScript Syntax', 'OOP & Functional JS', 'Async/Await & Promises', 'Automated Testing'],
       credentialId: 'L4PQEWY4VP01',
     },
     {
       id: 'c-11',
-      title: 'Dicoding – Belajar Dasar Pemrograman Web',
+      title: isId
+        ? 'Dicoding – Belajar Dasar Pemrograman Web'
+        : 'Dicoding – Web Programming Basics',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Februari 2025 – 2028',
+      year: isId ? 'Februari 2025 – 2028' : 'February 2025 – 2028',
       image: certDicodingWebDasar,
-      description: 'Sertifikasi kelulusan kurikulum resmi pemrograman web modern dari Dicoding Indonesia, mencakup standar HTML5 semantik, CSS3 responsif, flexbox, dan layouting.',
+      description: isId
+        ? 'Sertifikasi kelulusan kurikulum resmi pemrograman web modern dari Dicoding Indonesia, mencakup standar HTML5 semantik, CSS3 responsif, flexbox, dan layouting.'
+        : 'Graduation certificate for modern web programming from Dicoding Indonesia, covering semantic HTML5, responsive CSS3, Flexbox, and web layouting.',
       skills: ['HTML5 Semantic Structure', 'CSS3 Layouting & Flexbox', 'Responsive Web Design', 'Cross-browser Compatibility'],
       credentialId: '07Z637RWRZQR',
     },
     {
       id: 'c-12',
-      title: 'Dicoding – Memulai Dasar Pemrograman untuk Menjadi Pengembang Software',
+      title: isId
+        ? 'Dicoding – Memulai Dasar Pemrograman untuk Menjadi Pengembang Software'
+        : 'Dicoding – Programming Fundamentals for Software Developers',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Februari 2025 – 2028',
+      year: isId ? 'Februari 2025 – 2028' : 'February 2025 – 2028',
       image: certDicodingSoftware,
-      description: 'Sertifikat kelulusan pengenalan metodologi pengembangan perangkat lunak, alur kerja programmer, Git dasar, serta pemodelan kebutuhan aplikasi.',
+      description: isId
+        ? 'Sertifikat kelulusan pengenalan metodologi pengembangan perangkat lunak, alur kerja programmer, Git dasar, serta pemodelan kebutuhan aplikasi.'
+        : 'Graduation certificate introducing software development methodologies, programmer workflows, basic Git, and application requirement modeling.',
       skills: ['Software Development Lifecycle', 'Algorithmic Thinking', 'Requirement Analysis', 'Developer Workflow'],
       credentialId: 'GRX53213KZ0M',
     },
     {
       id: 'c-13',
-      title: 'Dicoding – Pengenalan ke Logika Pemrograman (Programming Logic 101)',
+      title: isId
+        ? 'Dicoding – Pengenalan ke Logika Pemrograman (Programming Logic 101)'
+        : 'Dicoding – Introduction to Programming Logic (Programming Logic 101)',
       subtitle: 'Dicoding Academy Indonesia',
       issuer: 'Dicoding Academy',
-      year: 'Februari 2025 – 2028',
+      year: isId ? 'Februari 2025 – 2028' : 'February 2025 – 2028',
       image: certDicodingLogic,
-      description: 'Sertifikat kompetensi kelulusan logika pemrograman dasar, gerbang logika, algoritma percabangan, perulangan, dan pemecahan masalah terstruktur.',
+      description: isId
+        ? 'Sertifikat kompetensi kelulusan logika pemrograman dasar, gerbang logika, algoritma percabangan, perulangan, dan pemecahan masalah terstruktur.'
+        : 'Competency certificate covering fundamental programming logic, logic gates, branching algorithms, loops, and structured problem solving.',
       skills: ['Programming Logic', 'Boolean Algebra', 'Flowchart & Pseudocode', 'Problem Solving'],
       credentialId: '07Z638NNYZQR',
     },
@@ -539,7 +639,9 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
       issuer: 'Dicoding Academy',
       year: 'April 2025 – 2028',
       image: certDicodingFinlit,
-      description: 'Sertifikat kelulusan literasi keuangan pribadi dan perencanaan finansial profesional sebagai bagian dari kurikulum Coding Camp DBS Foundation.',
+      description: isId
+        ? 'Sertifikat kelulusan literasi keuangan pribadi dan perencanaan finansial profesional sebagai bagian dari kurikulum Coding Camp DBS Foundation.'
+        : 'Graduation certificate in personal financial literacy and professional financial planning as part of the Coding Camp DBS Foundation curriculum.',
       skills: ['Financial Planning', 'Budget Management', 'Risk Awareness', 'Investment Basics'],
       credentialId: 'MEPJQ0DO4X3V',
     },
@@ -549,82 +651,112 @@ export default function PortfolioSection({ activeTab = 'projects', onTabChange, 
   const galleryData = [
     {
       id: 'g-1',
-      title: 'International Summer Course on Modern Optics & Its Applications (SCoMOA)',
-      subtitle: 'Summer Course · Institut Teknologi Bandung (ITB)',
-      category: 'Summer Course · ITB Bandung',
-      year: 'July – August 2023',
+      title: isId
+        ? 'Kursus Musim Panas Internasional Optik Modern & Aplikasinya (SCoMOA)'
+        : 'International Summer Course on Modern Optics & Its Applications (SCoMOA)',
+      subtitle: isId ? 'Kursus Musim Panas · Institut Teknologi Bandung (ITB)' : 'Summer Course · Institut Teknologi Bandung (ITB)',
+      category: isId ? 'Kursus Musim Panas · ITB Bandung' : 'Summer Course · ITB Bandung',
+      year: isId ? 'Juli – Agustus 2023' : 'July – August 2023',
       image: galeryScomoa,
-      description: 'Partisipan dalam program International Summer Course on Modern Optics and Its Applications (SCoMOA) di Institut Teknologi Bandung (ITB) bersama peserta nasional dan internasional.',
+      description: isId
+        ? 'Partisipan dalam program International Summer Course on Modern Optics and Its Applications (SCoMOA) di Institut Teknologi Bandung (ITB) bersama peserta nasional dan internasional.'
+        : 'Participant in the International Summer Course on Modern Optics and Its Applications (SCoMOA) at Institut Teknologi Bandung (ITB) alongside national and international participants.',
       tags: ['Modern Optics', 'ITB Bandung', 'Summer Course', 'UNESCO'],
     },
     {
       id: 'g-2',
       title: 'Full Stack Web Developer Coding Camp – Powered by DBS Foundation',
-      subtitle: 'Internship · Dicoding Indonesia',
-      category: 'Internship · Dicoding Indonesia',
-      year: 'February – June 2025',
+      subtitle: isId ? 'Magang · Dicoding Indonesia' : 'Internship · Dicoding Indonesia',
+      category: isId ? 'Magang · Dicoding Indonesia' : 'Internship · Dicoding Indonesia',
+      year: isId ? 'Februari – Juni 2025' : 'February – June 2025',
       image: galeryCodingcamp,
-      description: 'Menyelesaikan program Coding Camp powered by DBS Foundation spesialisasi Front-End dan Back-End Developer serta membangun platform real-time carbon monitoring (Eddy Station).',
+      description: isId
+        ? 'Menyelesaikan program Coding Camp powered by DBS Foundation spesialisasi Front-End dan Back-End Developer serta membangun platform web capstone (Edly Station).'
+        : 'Completed the Coding Camp powered by DBS Foundation program specializing in Front-End and Back-End Web Development and built a full-stack capstone web platform (Edly Station).',
       tags: ['Full Stack Web', 'DBS Foundation', 'Dicoding', 'Capstone Project'],
     },
     {
       id: 'g-3',
-      title: 'BEM FT UNILA & Krakatoa Papermob PKKMB Committee',
-      subtitle: 'Organizational · University of Lampung',
-      category: 'Organizational · BEM UNILA',
+      title: isId
+        ? 'BEM FT UNILA & Panitia Krakatoa Papermob PKKMB'
+        : 'BEM FT UNILA & Krakatoa Papermob PKKMB Committee',
+      subtitle: isId ? 'Organisasi · Universitas Lampung' : 'Organizational · University of Lampung',
+      category: isId ? 'Organisasi · BEM UNILA' : 'Organizational · BEM UNILA',
       year: '2023 – 2024',
       image: galeryBem,
-      description: 'Staf Dinas Komunikasi dan Informasi BEM Fakultas Teknik Universitas Lampung (2023–2024) serta Panitia Krakatoa Papermob PKKMB Universitas Lampung.',
+      description: isId
+        ? 'Staf Dinas Komunikasi dan Informasi BEM Fakultas Teknik Universitas Lampung (2023–2024) serta Panitia Krakatoa Papermob PKKMB Universitas Lampung.'
+        : 'Communication and Information Management Staff at BEM Faculty of Engineering, University of Lampung (2023–2024), and Committee Member for Krakatoa Papermob PKKMB.',
       tags: ['BEM FT UNILA', 'Kominfo', 'PKKMB Committee', 'Leadership'],
     },
     {
       id: 'g-4',
-      title: 'Laboratory Assistant – Telecommunications & Information Technology Lab',
-      subtitle: 'Work Experience · Universitas Lampung',
-      category: 'Work Experience · Unila Lab',
-      year: 'April 2025 – July 2026',
+      title: isId
+        ? 'Asisten Laboratorium – Laboratorium Telekomunikasi & Teknologi Informasi'
+        : 'Laboratory Assistant – Telecommunications & Information Technology Lab',
+      subtitle: isId ? 'Pengalaman Kerja · Universitas Lampung' : 'Work Experience · Universitas Lampung',
+      category: isId ? 'Pengalaman Kerja · Lab Unila' : 'Work Experience · Unila Lab',
+      year: isId ? 'April 2025 – Juli 2026' : 'April 2025 – July 2026',
       image: galeryAslab,
-      description: 'Asisten Laboratorium Telekomunikasi & Teknologi Informasi Universitas Lampung yang membimbing praktikum mahasiswa, pengujian rangkaian elektronika, dan sistem jaringan.',
+      description: isId
+        ? 'Asisten Laboratorium Telekomunikasi & Teknologi Informasi Universitas Lampung yang membimbing praktikum mahasiswa, troubleshooting sistem lab, serta menjaga kesiapan peralatan.'
+        : 'Laboratory Assistant at the Telecommunications & IT Laboratory, University of Lampung, guiding student practicums, troubleshooting lab systems, and maintaining equipment readiness.',
       tags: ['Telecommunications Lab', 'Teaching Assistant', 'Hardware Lab'],
     },
     {
       id: 'g-5',
-      title: 'Engineering Development Staff – HIMATRO University of Lampung',
-      subtitle: 'Organization · Teknik Elektro',
-      category: 'Organization · HIMATRO',
-      year: 'February 2023 – February 2025',
+      title: isId
+        ? 'Staf Pengembangan Teknik – HIMATRO Universitas Lampung'
+        : 'Engineering Development Staff – HIMATRO University of Lampung',
+      subtitle: isId ? 'Organisasi · Teknik Elektro' : 'Organization · Electrical Engineering',
+      category: isId ? 'Organisasi · HIMATRO' : 'Organization · HIMATRO',
+      year: isId ? 'Februari 2023 – Februari 2025' : 'February 2023 – February 2025',
       image: galeryHimatro,
-      description: 'Anggota Divisi Penelitian dan Pengembangan (Bangtek) Himpunan Mahasiswa Teknik Elektro (HIMATRO) Universitas Lampung dengan predikat Grade A.',
-      tags: ['HIMATRO', 'Research & Development', 'Teknik Elektro'],
+      description: isId
+        ? 'Anggota Divisi Pengembangan Teknik (Bangtek) Himpunan Mahasiswa Teknik Elektro (HIMATRO) Universitas Lampung yang berfokus pada pengembangan teknis dan edukasi teknologi mahasiswa.'
+        : 'Member of the Engineering Development Division (Bangtek) at HIMATRO University of Lampung, focusing on technical development and student technology education.',
+      tags: ['HIMATRO', 'Engineering Development', 'Electrical Engineering'],
     },
     {
       id: 'g-6',
-      title: 'Chief Executive – HIMATRO Research Class (HRC) 2024',
-      subtitle: 'Organizational Leadership · HIMATRO',
-      category: 'Organizational Leadership',
-      year: 'May – November 2024',
+      title: isId
+        ? 'Ketua Pelaksana – HIMATRO Research Class (HRC) 2024'
+        : 'Chief Executive – HIMATRO Research Class (HRC) 2024',
+      subtitle: isId ? 'Kepemimpinan Organisasi · HIMATRO' : 'Organizational Leadership · HIMATRO',
+      category: isId ? 'Kepemimpinan Organisasi' : 'Organizational Leadership',
+      year: isId ? 'Mei – November 2024' : 'May – November 2024',
       image: galeryHrc,
-      description: 'Ketua Pelaksana Seminar & Pelatihan HIMATRO Research Class (HRC) yang diselenggarakan oleh Himpunan Mahasiswa Teknik Elektro Universitas Lampung.',
+      description: isId
+        ? 'Ketua Pelaksana Seminar & Pelatihan HIMATRO Research Class (HRC) yang dihadiri 151 peserta seminar dan 167 peserta sesi mentoring penulisan ilmiah.'
+        : 'Chief Executive of the HIMATRO Research Class (HRC) Seminar & Mentoring program, reaching 151 seminar participants and 167 scientific writing mentoring participants.',
       tags: ['Chief Executive', 'Event Leadership', 'Research Class'],
     },
     {
       id: 'g-7',
-      title: 'Committee Member – Electrical Engineering in Action (EEA) 2024',
-      subtitle: 'Organizational & Committee Experience',
-      category: 'Committee · EEA 2024',
-      year: 'June – October 2024',
+      title: isId
+        ? 'Anggota Panitia – Electrical Engineering in Action (EEA) 2024'
+        : 'Committee Member – Electrical Engineering in Action (EEA) 2024',
+      subtitle: isId ? 'Organisasi & Kepanitiaan' : 'Organizational & Committee Experience',
+      category: isId ? 'Kepanitiaan · EEA 2024' : 'Committee · EEA 2024',
+      year: isId ? 'Juni – Oktober 2024' : 'June – October 2024',
       image: galeryEea,
-      description: 'Panitia pelaksana kegiatan akbar tahunan Electrical Engineering in Action (EEA) 2024 Teknik Elektro Universitas Lampung.',
+      description: isId
+        ? 'Panitia pelaksana kegiatan akbar tahunan Seminar Nasional Electrical Engineering in Action (EEA) 2024 Teknik Elektro Universitas Lampung yang dihadiri 1.500 peserta.'
+        : 'Organizing committee member for the annual Electrical Engineering in Action (EEA) 2024 National Seminar at University of Lampung, attended by 1,500 participants.',
       tags: ['EEA 2024', 'Event Committee', 'Teamwork'],
     },
     {
       id: 'g-8',
-      title: 'Speaker – Electrical Go To School (EGOS) at SMAN 15 Bandar Lampung',
-      subtitle: 'Volunteer · Community Outreach',
-      category: 'Volunteer · Speaker',
+      title: isId
+        ? 'Pembicara – Electrical Go To School (EGOS) di SMAN 15 Bandar Lampung'
+        : 'Speaker – Electrical Go To School (EGOS) at SMAN 15 Bandar Lampung',
+      subtitle: isId ? 'Relawan · Pengabdian Masyarakat' : 'Volunteer · Community Outreach',
+      category: isId ? 'Relawan · Pembicara' : 'Volunteer · Speaker',
       year: 'April 2023',
       image: galeryEgos,
-      description: 'Pemateri dalam kegiatan pengabdian masyarakat Electrical Go To School (EGOS) HIMATRO Unila di SMA Negeri 15 Bandar Lampung.',
+      description: isId
+        ? 'Pemateri dalam kegiatan pengabdian masyarakat Electrical Go To School (EGOS) HIMATRO Unila tentang Internet of Things (IoT) kepada 100 siswa di SMA Negeri 15 Bandar Lampung.'
+        : 'Speaker in the Electrical Go To School (EGOS) community outreach program by HIMATRO Unila, delivering an IoT educational session to 100 students at SMA Negeri 15 Bandar Lampung.',
       tags: ['Public Speaking', 'Volunteer', 'Community Outreach'],
     },
   ];

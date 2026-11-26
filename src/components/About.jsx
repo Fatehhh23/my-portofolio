@@ -235,8 +235,48 @@ function FlowchartNodeItem({ item, index, totalItems, activeCard, toggleCard }) 
 
             {/* Accordion Detail saat di-klik */}
             {isActive && item.detail && (
-              <div className="mt-2.5 pt-2.5 border-t border-white/10 text-xs text-white/75 leading-relaxed animate-fadeIn">
-                {item.detail}
+              <div className="mt-2.5 pt-2.5 border-t border-white/10 text-xs text-white/80 leading-relaxed animate-fadeIn space-y-2.5">
+                {typeof item.detail === 'string' ? (
+                  <p>{item.detail}</p>
+                ) : (
+                  <>
+                    {item.detail.summary && (
+                      <p className="text-white/85">{item.detail.summary}</p>
+                    )}
+                    {item.detail.highlights && item.detail.highlights.length > 0 && (
+                      <div>
+                        <p className="text-[11px] font-bold text-emerald-300 uppercase tracking-wider mb-1">
+                          {item.detail.highlightsTitle}
+                        </p>
+                        <ul className="list-disc list-inside space-y-1 text-white/75">
+                          {item.detail.highlights.map((h, i) => (
+                            <li key={i}>{h}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {item.detail.footer && (
+                      <p className="text-white/75 italic">{item.detail.footer}</p>
+                    )}
+                    {item.detail.tags && item.detail.tags.length > 0 && (
+                      <div>
+                        <p className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider mb-1">
+                          {item.detail.tagsTitle}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {item.detail.tags.map((t, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-white/10 text-white/90 border border-white/15"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -673,57 +713,152 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
     {
       id: 'exp-1',
       num: '1',
-      year: 'April 2023',
-      date: 'April 2023',
-      title: 'Speaker – Electrical Go to School (EGOS)',
-      role: 'Speaker & Volunteer',
-      place: 'Bandar Lampung State Senior High School 15',
-      tag: 'Volunteer',
-      detail: 'Memberikan materi edukatif mengenai teknologi teknik elektro, revolusi AI, dan peluang karir software engineering kepada siswa SMA.',
+      year: isId ? 'April 2023' : 'April 2023',
+      date: isId ? 'April 2023' : 'April 2023',
+      title: isId
+        ? 'Pembicara & Relawan – Electrical Go to School (EGOS)'
+        : 'Speaker & Volunteer – Electrical Go to School (EGOS)',
+      role: isId ? 'Pembicara & Relawan' : 'Speaker & Volunteer',
+      place: 'SMA Negeri 15 Bandar Lampung',
+      tag: isId ? 'Relawan' : 'Volunteer',
+      detail: {
+        summary: isId
+          ? 'Berpartisipasi sebagai pembicara dan relawan dalam program pengabdian masyarakat edukatif yang diselenggarakan oleh HIMATRO. Berkontribusi dalam berbagi pengetahuan teknik elektro serta memperkenalkan teknologi kepada siswa SMA.'
+          : 'Participated as a speaker and volunteer in an educational outreach program organized by HIMATRO. Contributed to sharing electrical engineering knowledge and introducing technology to high school students.',
+      },
     },
     {
       id: 'exp-2',
       num: '2',
-      year: 'July – August 2023',
-      date: 'July – August 2023',
-      title: 'International Summer Course on Modern Optics and Its Applications',
-      role: 'Participant',
-      place: 'Institut Teknologi Bandung (ITB) · Bandung, Indonesia',
-      tag: 'International',
-      detail: 'Mempelajari kemajuan spektrometri, serat optik, fotonika kuantum, dan aplikasi laser dalam transmisi data telekomunikasi modern.',
+      year: isId ? 'Juli – Agustus 2023' : 'July – August 2023',
+      date: isId ? 'Juli – Agustus 2023' : 'July – August 2023',
+      title: isId
+        ? 'Kursus Musim Panas Internasional Optik Modern & Aplikasinya'
+        : 'International Summer Course on Modern Optics and Its Applications',
+      role: isId ? 'Peserta' : 'Participant',
+      place: 'Institut Teknologi Bandung (ITB), Bandung, Indonesia',
+      tag: isId ? 'Internasional' : 'International',
+      detail: {
+        summary: isId
+          ? 'Berpartisipasi dalam kursus musim panas akademik internasional yang berfokus pada teknologi optik modern dan penerapannya dalam bidang teknik serta telekomunikasi.'
+          : 'Participated in an international academic summer course focused on modern optical technologies and their applications in engineering and telecommunications.',
+        highlightsTitle: isId ? 'Area Pembelajaran' : 'Learning Areas',
+        highlights: isId
+          ? [
+              'Spektrometri modern dan teknologi pengukuran optik.',
+              'Sistem komunikasi serat optik.',
+              'Fotonika kuantum dan teknologi optik terkini.',
+              'Aplikasi laser dalam telekomunikasi modern dan transmisi data.',
+            ]
+          : [
+              'Modern spectrometry and optical measurement technologies.',
+              'Optical fiber communication systems.',
+              'Quantum photonics and emerging optical technologies.',
+              'Laser applications in modern telecommunications and data transmission.',
+            ],
+        footer: isId
+          ? 'Memperoleh wawasan akademik tambahan mengenai optik modern, teknologi telekomunikasi, serta penerapan praktisnya.'
+          : 'Gained additional academic insights into modern optics, telecommunications technologies, and their practical applications.',
+      },
     },
     {
       id: 'exp-3',
       num: '3',
-      year: 'Jul 2024 – Des 2024',
-      date: 'Jul 2024 – Des 2024',
-      title: 'Staf Teknis – Stasiun Mikroklimat',
-      role: 'Technical Specialist',
-      place: 'Universitas Lampung · Bandar Lampung, Indonesia',
-      tag: 'Technical',
-      detail: 'Mengelola sensor mikroklimat cerdas, kalibrasi sistem telemetry cuaca, dan validasi data sensor lingkungan secara berkala.',
+      year: isId ? 'Juli – Desember 2024' : 'July – December 2024',
+      date: isId ? 'Juli – Desember 2024' : 'July – December 2024',
+      title: isId
+        ? 'Staf Teknis – Stasiun Mikroklimat'
+        : 'Technical Staff – Microclimate Station',
+      role: isId ? 'Staf Teknis' : 'Technical Staff',
+      place: 'Universitas Lampung',
+      tag: isId ? 'Teknis' : 'Technical',
+      detail: {
+        summary: isId
+          ? 'Berkontribusi dalam pengembangan dan pemeliharaan sistem akuisisi data mikroklimat menggunakan Raspberry Pi, Linux, dan sensor lingkungan. Bertanggung jawab mendukung pengumpulan data lingkungan secara berkelanjutan, mengelola dataset, serta menangani troubleshooting integrasi hardware-software.'
+          : 'Contributed to the development and maintenance of a microclimate data acquisition system using Raspberry Pi, Linux, and environmental sensors. Responsible for supporting continuous environmental data collection, managing datasets, and troubleshooting hardware-software integration issues to ensure reliable system operation.',
+        highlightsTitle: isId ? 'Tanggung Jawab Utama' : 'Key Responsibilities',
+        highlights: isId
+          ? [
+              'Mengembangkan dan memelihara sistem akuisisi data berbasis Linux.',
+              'Mengintegrasikan Raspberry Pi dengan sensor lingkungan untuk pengumpulan data berkelanjutan.',
+              'Mengelola dataset lingkungan dan mendukung aktivitas pemrosesan data.',
+              'Melakukan troubleshooting sistematis pada integrasi perangkat keras dan perangkat lunak.',
+            ]
+          : [
+              'Developed and maintained a Linux-based data acquisition system.',
+              'Integrated Raspberry Pi with environmental sensors for continuous data collection.',
+              'Managed environmental datasets and supported data processing activities.',
+              'Performed systematic troubleshooting of hardware and software integration issues.',
+            ],
+        tagsTitle: isId ? 'Teknologi' : 'Technologies',
+        tags: ['Raspberry Pi', 'Linux', isId ? 'Sensor Lingkungan' : 'Environmental Sensors', isId ? 'Akuisisi Data' : 'Data Acquisition', isId ? 'Integrasi Sistem' : 'System Integration'],
+      },
     },
     {
       id: 'exp-4',
       num: '4',
-      year: 'February – June 2025',
-      date: 'February – June 2025',
-      title: 'Full Stack Web Developer Coding Camp powered by DBS Foundation',
-      role: 'Internship Dicoding Indonesia',
-      place: 'Remote, Indonesia',
-      tag: 'Full Stack',
-      detail: 'Membangun aplikasi web kelas industri berbasis React, Node.js, Express, PostgreSQL, dan deployment cloud dengan standar clean architecture.',
+      year: isId ? 'Februari – Juni 2025' : 'February – June 2025',
+      date: isId ? 'Februari – Juni 2025' : 'February – June 2025',
+      title: 'Full-Stack Web Developer – Coding Camp powered by DBS Foundation',
+      role: 'Dicoding Indonesia',
+      place: isId ? 'Jarak Jauh, Indonesia' : 'Remote, Indonesia',
+      tag: 'Full-Stack',
+      detail: {
+        summary: isId
+          ? 'Menyelesaikan program intensif Full-Stack Web Development selama 910 jam yang berfokus pada pengembangan aplikasi web modern melalui praktik rekayasa perangkat lunak terstruktur, mencakup frontend, backend, RESTful API, manajemen basis data, pengujian, debugging, dan deployment.'
+          : 'Completed an intensive 910-hour Full-Stack Web Development program focused on building modern web applications through structured software development practices, gaining hands-on experience in frontend and backend development, RESTful API implementation, database management, software testing, debugging, and deployment.',
+        highlightsTitle: isId ? 'Pencapaian Utama' : 'Key Achievements',
+        highlights: isId
+          ? [
+              'Menyelesaikan 910 jam pelatihan teknis terstruktur dengan kehadiran 100%.',
+              'Meraih nilai rata-rata 84.7/100.',
+              'Mengembangkan aplikasi capstone full-stack dengan nilai 90.1/100.',
+              'Meraih 11 sertifikasi Dicoding mencakup Front-End, Back-End, JavaScript, Git, dan pengembangan karier.',
+            ]
+          : [
+              'Completed 910 hours of structured technical training with 100% attendance.',
+              'Achieved an average score of 84.7/100.',
+              'Developed a full-stack capstone application with a score of 90.1/100.',
+              'Earned 11 Dicoding certifications covering Front-End Development, Back-End Development, JavaScript, Git, and career development.',
+            ],
+        tagsTitle: isId ? 'Teknologi' : 'Technologies',
+        tags: ['JavaScript', 'Node.js', 'Express.js', 'REST API', 'MySQL', 'PostgreSQL', 'Git', 'Postman'],
+      },
     },
     {
       id: 'exp-5',
       num: '5',
-      year: 'April 2025 – July 2026',
-      date: 'Contract · April 2025 – July 2026',
-      title: 'Laboratory Assistant Telecommunications & Information Technology Laboratory',
+      year: isId ? 'April 2025 – Juli 2026' : 'April 2025 – July 2026',
+      date: isId ? 'April 2025 – Juli 2026' : 'April 2025 – July 2026',
+      title: isId
+        ? 'Asisten Laboratorium – Laboratorium Telekomunikasi & Teknologi Informasi'
+        : 'Laboratory Assistant – Telecommunications & Information Technology Laboratory',
       role: 'Universitas Lampung',
-      place: 'Laboratorium Telekomunikasi & TI',
-      tag: 'Lab Assistant',
-      detail: 'Memandu mahasiswa dalam praktikum antena, perambatan gelombang radio, konfigurasi jaringan komputer, dan pemeliharaan alat lab.',
+      place: isId ? 'Laboratorium Telekomunikasi & TI' : 'Telecommunications & IT Laboratory',
+      tag: isId ? 'Asisten Lab' : 'Lab Assistant',
+      detail: {
+        summary: isId
+          ? 'Bekerja sebagai asisten laboratorium yang memberikan dukungan teknis dan bimbingan selama sesi praktikum. Bertanggung jawab menangani troubleshooting teknis, mendampingi mahasiswa dalam praktikum, menyiapkan modul praktikum, serta menjaga dokumentasi teknis dan kesiapan peralatan.'
+          : 'Worked as a laboratory assistant, providing technical support and guidance during practical sessions. Responsible for troubleshooting technical issues, assisting students with laboratory activities, preparing practicum modules, and maintaining technical documentation and equipment readiness.',
+        highlightsTitle: isId ? 'Tanggung Jawab Utama' : 'Key Responsibilities',
+        highlights: isId
+          ? [
+              'Memberikan dukungan teknis langsung dan troubleshooting untuk sistem serta peralatan laboratorium.',
+              'Membantu mahasiswa memahami latihan praktikum dan implementasi teknis.',
+              'Menyiapkan modul laboratorium, instruksi teknis, dan daftar periksa peralatan.',
+              'Berkoordinasi dengan tim laboratorium untuk menjaga kelancaran operasional.',
+            ]
+          : [
+              'Provided hands-on technical support and troubleshooting for laboratory systems and equipment.',
+              'Assisted students in understanding practical exercises and technical implementations.',
+              'Prepared laboratory modules, technical instructions, and equipment checklists.',
+              'Coordinated with laboratory teams to maintain smooth laboratory operations.',
+            ],
+        tagsTitle: isId ? 'Keahlian Utama' : 'Key Skills',
+        tags: isId
+          ? ['Dukungan Teknis', 'Troubleshooting', 'Dokumentasi', 'Pemecahan Masalah', 'Kerja Tim', 'Komunikasi']
+          : ['Technical Support', 'Troubleshooting', 'Documentation', 'Problem Solving', 'Teamwork', 'Communication'],
+      },
     },
   ];
 
@@ -734,45 +869,120 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
     {
       id: 'org-1',
       num: '1',
-      year: 'May 2023 – Nov 2024',
-      date: 'May 2023 – Nov 2024',
-      title: 'Communication and Information Management Staff',
-      org: 'BEM Faculty of Engineering',
-      subOrg: 'University of Lampung (BEM FT UNILA)',
+      year: isId ? 'Mei 2023 – November 2024' : 'May 2023 – November 2024',
+      date: isId ? 'Mei 2023 – November 2024' : 'May 2023 – November 2024',
+      title: isId
+        ? 'Staf Pengelolaan Komunikasi & Informasi – BEM FT UNILA'
+        : 'Communication and Information Management Staff – BEM FT UNILA',
+      org: isId ? 'Badan Eksekutif Mahasiswa Fakultas Teknik' : 'Faculty of Engineering Student Executive Board',
+      subOrg: 'Universitas Lampung',
       tag: 'BEM FT',
-      detail: 'Mengelola publikasi digital fakultas teknik, desain visual media informasi, serta dokumentasi kegiatan kampus.',
+      detail: {
+        summary: isId
+          ? 'Berkontribusi dalam aktivitas pengelolaan komunikasi dan informasi organisasi melalui pengembangan konten visual kreatif serta dukungan strategi komunikasi digital.'
+          : "Contributed to the organization's communication and information management activities by developing creative visual content and supporting digital communication strategies.",
+        highlightsTitle: isId ? 'Kontribusi Utama' : 'Key Contributions',
+        highlights: isId
+          ? [
+              'Membuat desain visual, infografis, dan video kreatif untuk kampanye organisasi serta promosi acara.',
+              'Menyusun copywriting informatif dan caption media sosial.',
+              'Menjaga konsistensi visual branding di platform media sosial dan materi publikasi.',
+              'Mendukung komunikasi dan penyebarluasan informasi organisasi.',
+            ]
+          : [
+              'Created visual designs, infographics, and creative videos for organizational campaigns and event promotions.',
+              'Developed informative copywriting and social media captions.',
+              'Maintained consistent visual branding across social media platforms and publication materials.',
+              'Supported the communication and dissemination of organizational information.',
+            ],
+        tagsTitle: isId ? 'Keahlian Utama' : 'Key Skills',
+        tags: isId
+          ? ['Komunikasi Digital', 'Desain Grafis', 'Pembuatan Konten', 'Copywriting', 'Kreativitas', 'Kerja Tim']
+          : ['Digital Communication', 'Graphic Design', 'Content Creation', 'Copywriting', 'Creativity', 'Teamwork'],
+      },
     },
     {
       id: 'org-2',
       num: '2',
-      year: 'February 2023 – February 2025',
-      date: 'February 2023 – February 2025',
-      title: 'Engineering Development Staff',
-      org: 'Himpunan Mahasiswa Teknik Elektro (HIMATRO) Universitas Lampung',
+      year: isId ? 'Februari 2023 – Februari 2025' : 'February 2023 – February 2025',
+      date: isId ? 'Februari 2023 – Februari 2025' : 'February 2023 – February 2025',
+      title: isId
+        ? 'Staf Pengembangan Teknik – HIMATRO'
+        : 'Engineering Development Staff – HIMATRO',
+      org: 'Himpunan Mahasiswa Teknik Elektro, Universitas Lampung',
       tag: 'HIMATRO',
-      detail: 'Divisi Pengembangan Teknik yang merancang kurikulum pelatihan teknis, workshop elektronika, dan kompetisi robotika mahasiswa.',
+      detail: {
+        summary: isId
+          ? 'Berkontribusi aktif dalam program pengembangan teknik yang berfokus pada peningkatan pengetahuan teknis mahasiswa serta pemahaman praktis teknik elektro dan teknologi terkini.'
+          : "Actively contributed to engineering development programs focused on improving students' technical knowledge and practical understanding of electrical engineering and emerging technologies.",
+        highlightsTitle: isId ? 'Kontribusi Utama' : 'Key Contributions',
+        highlights: isId
+          ? [
+              'Membawakan sesi edukasi tentang Internet of Things (IoT) kepada 100 siswa di SMA Negeri 15 Bandar Lampung.',
+              'Mendukung penyelenggaraan Seminar Nasional Electrical Engineering in Action (EEA) 2024 yang dihadiri oleh 1.500 peserta.',
+              'Berkontribusi pada kegiatan edukatif, berbagi pengetahuan teknis, dan program pengembangan mahasiswa.',
+            ]
+          : [
+              'Delivered an educational session on Internet of Things (IoT) to 100 students at SMA Negeri 15 Bandar Lampung.',
+              'Supported the organization of the Electrical Engineering in Action (EEA) 2024 National Seminar, attended by 1,500 participants.',
+              'Contributed to educational activities, technical knowledge sharing, and student development programs.',
+            ],
+        tagsTitle: isId ? 'Keahlian Utama' : 'Key Skills',
+        tags: isId
+          ? ['Komunikasi Teknis', 'Berbagi Pengetahuan IoT', 'Kerja Tim', 'Koordinasi Acara', 'Public Speaking']
+          : ['Technical Communication', 'IoT Knowledge Sharing', 'Teamwork', 'Event Coordination', 'Public Speaking'],
+      },
     },
     {
       id: 'org-3',
       num: '3',
-      year: 'May 2024 – Nov 2024',
-      date: 'May 2024 – Nov 2024',
-      title: 'Chief Executive – HIMATRO Research Class (HRC)',
-      org: 'Himpunan Mahasiswa Teknik Elektro (HIMATRO)',
-      subOrg: 'Universitas Lampung',
-      tag: 'Leadership',
-      detail: 'Bertanggung jawab penuh memimpin program riset tahunan, mengoordinasi 100+ peserta pelatihan karya tulis ilmiah, dan mentoring IoT.',
+      year: isId ? 'Mei 2024 – November 2024' : 'May 2024 – November 2024',
+      date: isId ? 'Mei 2024 – November 2024' : 'May 2024 – November 2024',
+      title: isId
+        ? 'Ketua Pelaksana – HIMATRO Research Class (HRC)'
+        : 'Chief Executive – HIMATRO Research Class (HRC)',
+      org: 'Himpunan Mahasiswa Teknik Elektro, Universitas Lampung',
+      tag: isId ? 'Kepemimpinan' : 'Leadership',
+      detail: {
+        summary: isId
+          ? 'Memimpin dan mengoordinasi program HIMATRO Research Class yang berfokus pada pengembangan akademik, keterampilan riset, dan pendampingan penulisan ilmiah bagi mahasiswa teknik elektro.'
+          : 'Led and coordinated the HIMATRO Research Class program, focusing on academic development, research skills, and scientific writing mentoring for electrical engineering students.',
+        highlightsTitle: isId ? 'Pencapaian Utama' : 'Key Achievements',
+        highlights: isId
+          ? [
+              'Memimpin perencanaan dan pelaksanaan program HIMATRO Research Class.',
+              'Menyelenggarakan seminar yang dihadiri oleh 151 peserta.',
+              'Mengoordinasi sesi mentoring yang diikuti oleh 167 peserta.',
+              'Mengelola koordinasi tim, komunikasi peserta, dan pelaksanaan acara.',
+            ]
+          : [
+              'Led the planning and execution of the HIMATRO Research Class program.',
+              'Organized a seminar attended by 151 participants.',
+              'Coordinated mentoring sessions attended by 167 participants.',
+              'Managed team coordination, participant communication, and event execution.',
+            ],
+        tagsTitle: isId ? 'Keahlian Utama' : 'Key Skills',
+        tags: isId
+          ? ['Kepemimpinan', 'Manajemen Proyek', 'Koordinasi Tim', 'Public Speaking', 'Komunikasi', 'Manajemen Acara']
+          : ['Leadership', 'Project Management', 'Team Coordination', 'Public Speaking', 'Communication', 'Event Management'],
+      },
     },
     {
       id: 'org-4',
       num: '4',
-      year: 'July 2024 – August 2024',
-      date: 'July 2024 – August 2024',
-      title: 'Krakatoa Papermob PKKMB Committee',
-      org: 'BEM University of Lampung',
-      subOrg: 'Universitas Lampung (BEM UNILA)',
-      tag: 'Committee',
-      detail: 'Berkontribusi aktif dalam konseptualisasi dan koreografi papermob terbesar tingkat universitas untuk menyambut mahasiswa baru.',
+      year: isId ? 'Juli – Agustus 2024' : 'July – August 2024',
+      date: isId ? 'Juli – Agustus 2024' : 'July – August 2024',
+      title: isId
+        ? 'Anggota Panitia – Krakatoa Papermob PKKMB'
+        : 'Committee Member – Krakatoa Papermob PKKMB',
+      org: 'BEM Universitas Lampung',
+      subOrg: 'Universitas Lampung',
+      tag: isId ? 'Kepanitiaan' : 'Committee',
+      detail: {
+        summary: isId
+          ? 'Berpartisipasi dalam kepanitiaan orientasi mahasiswa baru tingkat universitas, berkontribusi dalam koordinasi acara, kerja sama tim, dan pelaksanaan rangkaian kegiatan PKKMB.'
+          : "Participated in the university's student orientation committee, contributing to event coordination, teamwork, and the execution of student orientation activities.",
+      },
     },
   ];
 
@@ -1052,10 +1262,27 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
                     </div>
 
                     {activeCard === 'edu' && (
-                      <div className="mt-3 pt-3 border-t border-white/10 text-xs text-white/75 leading-relaxed animate-fadeIn">
-                        {isId
-                          ? 'Fokus pada sistem kontrol, telekomunikasi digital, perancangan sirkuit perangkat keras, serta rekayasa perangkat lunak modern.'
-                          : 'Focused on control systems, digital telecommunications, hardware circuit design, and modern software engineering.'}
+                      <div className="mt-3 pt-3 border-t border-white/10 text-xs text-white/80 leading-relaxed animate-fadeIn space-y-2.5">
+                        <p>
+                          {isId
+                            ? 'Menempuh pendidikan teknik elektro dengan minat kuat pada pengembangan perangkat lunak, telekomunikasi, dan teknologi informasi. Mengembangkan keahlian praktis dalam pemrograman, pengembangan aplikasi web, manajemen basis data, sistem IoT, embedded system, serta integrasi hardware-software.'
+                            : 'Studied electrical engineering with a strong interest in software development, telecommunications, and information technology. Developed practical skills in programming, web application development, database management, IoT systems, embedded systems, and hardware-software integration.'}
+                        </p>
+                        <p>
+                          {isId
+                            ? 'Berfokus pada penerapan prinsip rekayasa teknik untuk membangun solusi berbasis teknologi, khususnya pada sistem pemantauan real-time, akuisisi data, dan aplikasi web cerdas.'
+                            : 'Focused on applying engineering principles to develop technology-based solutions, particularly in real-time monitoring systems, data acquisition, and intelligent web applications.'}
+                        </p>
+                        <div className="p-2.5 rounded-xl bg-white/[0.06] border border-emerald-400/25">
+                          <span className="text-[11px] font-bold text-emerald-300 uppercase tracking-wider block mb-0.5">
+                            {isId ? 'Tugas Akhir:' : 'Final Thesis:'}
+                          </span>
+                          <span className="text-white/90 italic">
+                            {isId
+                              ? '"Simulasi WebGIS untuk Prediksi Tsunami Selat Sunda yang Terintegrasi dengan Model Convolutional Neural Network Real-Time."'
+                              : '"WebGIS Simulation for Sunda Strait Tsunami Prediction Integrated with a Real-Time Convolutional Neural Network Model."'}
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>
