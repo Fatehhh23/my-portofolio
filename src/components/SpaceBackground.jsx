@@ -1,49 +1,16 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function SpaceBackground() {
   const canvasRef = useRef(null);
   const isVisibleRef = useRef(true);
 
-  // 1. Persebaran 480 Bintang (intensitas & palet warna disamakan dengan halaman Home)
-  const stars = useMemo(() => {
-    const starList = [];
-    const colors = ['#ffffff', '#ffffff', '#bae6fd', '#fef3c7', '#fbcfe8'];
-
-    for (let i = 0; i < 480; i++) {
-      const top = ((i * 17.3 + (i * i) * 3.7) % 98.8 + 0.4).toFixed(2);
-      const left = ((i * 29.1 + i * 11.3) % 98.8 + 0.4).toFixed(2);
-      const bright = i % 16 === 0;
-      const size = bright ? 2.8 : i % 4 === 0 ? 1.8 : 1.1;
-      const opacity = bright
-        ? (0.8 + ((i * 13) % 20) / 100).toFixed(2)
-        : (0.28 + ((i * 19) % 62) / 100).toFixed(2);
-      const duration = (2.4 + ((i * 7) % 30) / 10).toFixed(1);
-      const delay = (((i * 13) % 45) / 10).toFixed(1);
-      const color = colors[i % colors.length];
-
-      starList.push({
-        id: i,
-        top: `${top}%`,
-        left: `${left}%`,
-        size,
-        opacity,
-        duration: `${duration}s`,
-        delay: `${delay}s`,
-        color,
-        bright,
-      });
-    }
-    return starList;
-  }, []);
-
-  // 2. Shooting Stars (Bintang Jatuh HD pada Canvas, gaya sama dengan Home)
+  // 1. Rich HD Starfield (1.400 Bintang + Diffraction Spikes + Shooting Stars) dirender langsung di Canvas agar padat & ringan
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Pause when scrolled out of view
     const observer = new IntersectionObserver(
       ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
       { threshold: 0 }
@@ -51,7 +18,6 @@ export default function SpaceBackground() {
     observer.observe(canvas);
 
     let animId;
-    // cap DPR at 1.5 to save GPU memory on mobile
     let dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     let width = canvas.parentElement ? canvas.parentElement.offsetWidth : window.innerWidth;
     let height = canvas.parentElement ? canvas.parentElement.offsetHeight : window.innerHeight * 3;
@@ -71,8 +37,25 @@ export default function SpaceBackground() {
     handleResize();
     window.addEventListener('resize', handleResize);
 
+    // 1.400 Stars distributed across the space container (matching Home's star palette & bright diffraction spikes)
+    const starColors = ['#ffffff', '#ffffff', '#bae6fd', '#fef3c7', '#fbcfe8'];
+    const stars = Array.from({ length: 1400 }, () => {
+      const bright = Math.random() > 0.935;
+      return {
+        x: Math.random(),
+        y: Math.random(),
+        r: bright ? 1.5 + Math.random() * 1.4 : 0.4 + Math.random() * 1.25,
+        alpha: bright ? 0.78 + Math.random() * 0.22 : 0.25 + Math.random() * 0.7,
+        twinkleSpeed: 0.8 + Math.random() * 2.2,
+        phase: Math.random() * Math.PI * 2,
+        bright,
+        color: starColors[Math.floor(Math.random() * starColors.length)],
+      };
+    });
+
     const meteors = [];
-    let nextTimer = 1.0;
+    let nextTimer = 0.8;
+    let time = 0;
 
     const spawnMeteor = () => {
       const fromLeft = Math.random() > 0.4;
@@ -92,12 +75,43 @@ export default function SpaceBackground() {
     };
 
     const render = () => {
+      time += 0.016;
       ctx.clearRect(0, 0, width, height);
+
+      // Draw all 1.400 twinkling stars
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        const sx = s.x * width;
+        const sy = s.y * height;
+        const twinkle = 0.55 + 0.45 * Math.sin(time * s.twinkleSpeed + s.phase);
+        const a = s.alpha * twinkle;
+
+        ctx.globalAlpha = a;
+        ctx.fillStyle = s.color;
+        ctx.beginPath();
+        ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Diffraction spikes + soft halo on bright stars (matches Home starfield)
+        if (s.bright) {
+          const spikeLen = s.r * 4.2;
+          ctx.globalAlpha = a * 0.45;
+          ctx.strokeStyle = s.color;
+          ctx.lineWidth = 0.75;
+          ctx.beginPath();
+          ctx.moveTo(sx - spikeLen, sy);
+          ctx.lineTo(sx + spikeLen, sy);
+          ctx.moveTo(sx, sy - spikeLen);
+          ctx.lineTo(sx, sy + spikeLen);
+          ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
 
       nextTimer -= 0.016;
       if (nextTimer <= 0 && meteors.length < 3) {
         spawnMeteor();
-        nextTimer = 1.8 + Math.random() * 2.8;
+        nextTimer = 1.6 + Math.random() * 2.4;
       }
 
       for (let i = meteors.length - 1; i >= 0; i--) {
@@ -163,30 +177,7 @@ export default function SpaceBackground() {
       <div className="absolute top-[55%] -left-[10%] w-[650px] h-[650px] bg-violet-600/12 rounded-full blur-[180px]" />
       <div className="absolute bottom-[8%] right-[15%] w-[600px] h-[600px] bg-sky-500/10 rounded-full blur-[170px]" />
 
-      {/* 3. Persebaran 480 Bintang dengan Animasi Twinkle */}
-      {stars.map((s) => (
-        <div
-          key={s.id}
-          style={{
-            top: s.top,
-            left: s.left,
-            width: `${s.size}px`,
-            height: `${s.size}px`,
-            backgroundColor: s.color,
-            opacity: s.opacity,
-            animation: `twinkle ${s.duration} ease-in-out infinite`,
-            animationDelay: s.delay,
-            boxShadow: s.bright
-              ? `0 0 8px 1.5px ${s.color}`
-              : s.size > 1.5
-              ? `0 0 3px ${s.color}`
-              : 'none',
-          }}
-          className="absolute rounded-full"
-        />
-      ))}
-
-      {/* 4. Canvas Bintang Jatuh */}
+      {/* 3. Canvas 1.400 Bintang & Bintang Jatuh */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none"

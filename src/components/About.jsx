@@ -10,6 +10,9 @@ import projectIot from '../assets/project-iot.jpg';
 import certDicoding from '../assets/cert-dicoding.png';
 import certBnsp from '../assets/cert-bnsp.jpg';
 import certHubspot from '../assets/cert-hubspot.jpg';
+import galeryAslab from '../assets/galery-aslab.jpg';
+import galeryScomoa from '../assets/galery-scomoa.jpg';
+import galeryCodingcamp from '../assets/galery-codingcamp.jpg';
 import logoUnila from '../assets/logo-unila.png';
 
 // ── Reusable Scroll-Reveal Component ──
@@ -416,33 +419,66 @@ function InteractiveFolderCard({
         {/* === 3. GALLERY FOLDER PAPERS === */}
         {type === 'gallery' && (
           <div className="relative w-full h-full flex justify-center">
-            {/* Paper 1: Left - Polaroid 1 */}
+            {/* Paper 1: Left - Aslab Unila */}
             <div className="absolute top-2 left-1/2 folder-paper-left z-10">
-              <div className="w-16 sm:w-24 h-18 sm:h-24 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
-                <div className="w-full h-11 sm:h-15 rounded bg-gradient-to-br from-indigo-900 to-purple-800 flex items-center justify-center overflow-hidden">
-                  <div className="w-4 h-4 rounded-full bg-white/20 blur-[2px]" />
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-indigo-400/50 shadow-xl overflow-hidden flex flex-col">
+                <div className="w-full h-full overflow-hidden bg-zinc-900">
+                  <img
+                    src={galeryAslab}
+                    alt="Asisten Laboratorium Telekomunikasi & TI Unila"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
-                <span className="text-[6px] sm:text-[7px] font-mono text-zinc-800 font-bold text-center truncate">BEM FT UNILA</span>
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-indigo-300 leading-tight truncate">
+                    Aslab Unila
+                  </p>
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
+                    Telekomunikasi & TI
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Paper 2: Right - Polaroid 2 */}
+            {/* Paper 2: Right - SCOMOA ITB */}
             <div className="absolute top-2 left-1/2 folder-paper-right z-10">
-              <div className="w-16 sm:w-24 h-18 sm:h-24 rounded-lg bg-white/95 text-zinc-900 shadow-xl p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
-                <div className="w-full h-11 sm:h-15 rounded bg-gradient-to-br from-teal-900 to-emerald-800 flex items-center justify-center overflow-hidden">
-                  <div className="w-4 h-4 rounded-full bg-white/20 blur-[2px]" />
+              <div className="w-16 sm:w-24 h-20 sm:h-28 rounded-xl bg-zinc-950 border border-emerald-400/50 shadow-xl overflow-hidden flex flex-col">
+                <div className="w-full h-full overflow-hidden bg-zinc-900">
+                  <img
+                    src={galeryScomoa}
+                    alt="International Summer Course SCOMOA ITB"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
-                <span className="text-[6px] sm:text-[7px] font-mono text-zinc-800 font-bold text-center truncate">HIMATRO 2024</span>
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 pt-2">
+                  <p className="text-[6.5px] sm:text-[7.5px] font-bold text-emerald-300 leading-tight truncate">
+                    SCOMOA ITB
+                  </p>
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
+                    Summer Course
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Paper 3: Center - Campus Activity */}
+            {/* Paper 3: Center (Hero) - Coding Camp DBS */}
             <div className="absolute top-2 left-1/2 folder-paper-center z-20">
-              <div className="w-20 sm:w-28 h-20 sm:h-26 rounded-lg bg-white/95 text-zinc-900 shadow-[0_12px_30px_rgba(168,85,247,0.3)] p-1 sm:p-1.5 pb-1.5 sm:pb-2 flex flex-col justify-between">
-                <div className="w-full h-13 sm:h-17 rounded bg-gradient-to-br from-purple-900 via-pink-900 to-indigo-900 flex items-center justify-center relative overflow-hidden">
-                  <span className="text-white/90 text-[7px] sm:text-[9px] font-mono text-center px-1">📸 Activity</span>
+              <div className="w-20 sm:w-28 h-24 sm:h-32 rounded-xl bg-zinc-950 border-2 border-purple-400/70 shadow-[0_14px_30px_rgba(168,85,247,0.45)] overflow-hidden flex flex-col">
+                <div className="w-full h-full overflow-hidden bg-zinc-900">
+                  <img
+                    src={galeryCodingcamp}
+                    alt="Coding Camp DBS Foundation"
+                    className="w-full h-full object-cover object-center"
+                  />
                 </div>
-                <span className="text-[6.5px] sm:text-[8px] font-mono text-zinc-800 font-bold text-center truncate">Dokumentasi</span>
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-1 sm:p-1.5 pt-2.5">
+                  <p className="text-[7px] sm:text-[8px] font-bold text-white leading-tight truncate">
+                    <span className="text-purple-300">Coding Camp DBS</span>
+                  </p>
+                  <p className="text-[5.5px] sm:text-[6.5px] text-white/70 truncate">
+                    Dicoding x DBS
+                  </p>
+                </div>
               </div>
             </div>
           </div>
