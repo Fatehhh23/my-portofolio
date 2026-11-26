@@ -1061,7 +1061,7 @@ export default function About({ onNavigate, onOpenPortfolio, lang = 'id' }) {
           {/* View CV Button */}
           <div className="pt-1">
             <a
-              href="https://drive.google.com/file/d/1MARApIXOrqbSHQVDDujWbFx60ksi9-cU/view?usp=sharing"
+              href="https://drive.google.com/file/d/1UG178yXX0gt_JD9W2Kltnl2BYGhJRZI2/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 sm:px-7 py-2.5 rounded-lg border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-wider
